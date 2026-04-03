@@ -20,9 +20,29 @@ class LLMConfig:
     def get_base_url() -> str:
         base_url = os.getenv("LLM_BASE_URL", "http://localhost:11434/v1")
         if LLMConfig.get_provider() in ["google", "vertex", "vertexai", "gcp"]:
-            # Prevent conflict with OpenAI SDK automatically appending /chat/completions
-            if base_url.endswith(":predict"):
-                base_url = base_url.replace(":predict", "")
+            # If the user provides a full aiplatform URL or a projects/ endpoint string, 
+            # we convert it to the required dedicated endpoint DNS for vLLM compatibility.
+            if "aiplatform.googleapis.com" in base_url or "projects/" in base_url:
+                try:
+                    from google.cloud import aiplatform
+                    
+                    # Extract just the endpoint path if they provided a full URL
+                    endpoint_path = base_url
+                    if "https://" in endpoint_path:
+                        endpoint_path = endpoint_path.split("aiplatform.googleapis.com/v1/")[1]
+                        
+                    if endpoint_path.endswith(":predict"):
+                        endpoint_path = endpoint_path.replace(":predict", "")
+                        
+                    # Initialize aiplatform with the service account from core/auth setup
+                    get_api_key() # Calling this ensures GOOGLE_APPLICATION_CREDENTIALS is set in os.environ
+                    
+                    endpoint = aiplatform.Endpoint(endpoint_path)
+                    if endpoint.dedicated_endpoint_dns:
+                        base_url = f"https://{endpoint.dedicated_endpoint_dns}/v1"
+                except Exception as e:
+                    print(f"[VERTEX AI WARNING] Could not resolve dedicated endpoint DNS: {e}")
+                    
         return base_url
 
     @staticmethod
