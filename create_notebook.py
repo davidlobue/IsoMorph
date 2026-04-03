@@ -49,9 +49,10 @@ We point the Orchestrator to the local Ollama instance (acting as an OpenAI comp
 """
 
 code_orchestrator = """\
+import os
 orchestrator = Orchestrator(
-    model_name="mistral-small-agent", 
-    base_url="http://localhost:11434/v1",
+    model_name=os.getenv("OLLAMA_MODEL", "mistral-small-agent"), 
+    base_url=os.getenv("OLLAMA_BASE_URL", "http://localhost:11434/v1"),
     hallucination_filter=True,
     ontology_depth=3,
     strict_typing=True
@@ -61,7 +62,7 @@ try:
     final_schema = orchestrator.run_pipeline(docs)
 except Exception as e:
     print(f"Pipeline Error: {e}")
-    print("Is your Ollama instance running locally?")
+    print("Is your Ollama instance running locally, or did you export OLLAMA_BASE_URL?")
     final_schema = None
 """
 
