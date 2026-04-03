@@ -17,12 +17,12 @@ class FeatureExtractionResult(BaseModel):
     features: List[AtomicFeature] = Field(default_factory=list, description="Extracted atomic features from the source text.")
 
 class PlatonicCategory(BaseModel):
-    genus: str = Field(description="The broader category (e.g., Transaction, Animal).")
-    species: str = Field(description="The specific sub-type (e.g., SEC Form 4 Filing, Dog).")
+    genus: str = Field(description="The broader category (e.g., Behavior, Settings, Clinical Diagnosis).")
+    species: str = Field(description="The specific sub-type (e.g., Repetitive Motion, Autism Spectrum Disorder, Special Education Classroom).")
 
 class Differentiator(BaseModel):
     name: str = Field(description="The unique distinguishing trait.")
-    value: Any = Field(description="The specific value of this differentiator that makes it Unique across similar entities.")
+    value: Any = Field(description="The specific value(s) of this differentiator (can be a singular value or list of examples/evidence) that makes it Unique across similar entities.")
 
 class EntityOntology(BaseModel):
     feature_name: str

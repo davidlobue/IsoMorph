@@ -21,7 +21,7 @@ print("Sending request (JSON_SCHEMA mode)...")
 try:
     res = client.chat.completions.create(
         model=model,
-        messages=[{"role": "user", "content": "Extract a feature from: The dog is brown."}],
+        messages=[{"role": "user", "content": "Extract a behavior from: John avoided eye contact while speaking to the clinician."}],
         response_model=FeatureExtractionResult,
         max_retries=0
     )

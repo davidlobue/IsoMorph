@@ -34,7 +34,7 @@ class OntologistEngine:
         response = self.client.chat.completions.create(
             model=self.model_name,
             messages=[
-                {"role": "system", "content": "You are a master Ontologist identifying universal templates (Forms) from specific instances in grouped clusters."},
+                {"role": "system", "content": "You are a master Clinical Ontologist identifying universal behavioral templates (Forms) from specific instances in grouped clusters."},
                 {"role": "user", "content": prompt}
             ],
             response_model=EntityOntologyList,

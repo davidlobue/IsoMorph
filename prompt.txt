@@ -11,8 +11,8 @@ Shadow-to-Form Mapping: Distinguish between the "Shadow" (how the entity appears
 
 II. The Designer Process (Ontological Logic & Schema Synthesis)
 This stage uses Platonic and Differentiable logic to convert raw features into a "Universal Blueprint.
-"The Ontological Ladder: Reflect on features using Plato's Great Chain of Being. Categorize entities by their level of abstraction (e.g., Is this a "Transaction" (Genus) or an "SEC Form 4 Filing" (Species)?).
-Differentiable Concept Matrix: Identify unique "Elements" (Differentiators) across entities. How are they Mutually Exclusive and Collectively Exhaustive (MECE)? (e.g., A 'Buyer' is differentiated from a 'Seller' by the direction of capital flow.).
+"The Ontological Ladder: Reflect on features using Plato's Great Chain of Being. Categorize entities by their level of abstraction (e.g., Is this a "Behavior" (Genus) or "Avoids Eye Contact" (Species)?).
+Differentiable Concept Matrix: Identify unique "Elements" (Differentiators) across entities. How are they Mutually Exclusive and Collectively Exhaustive (MECE)? (e.g., 'Verbal Agitation' is differentiated from 'Physical Agitation' by the mode of expression and observed list of examples/evidence.).
 Knowledge Graph Construction: Convert these differentiable relationships into a structured graph.
 Schema Synthesis: Build a Pydantic-based schema representing the "Essential Form" of the subject area.
 Focus: Comprehensive coverage with a Zero False Positive mandate.
@@ -21,7 +21,7 @@ Abstraction Control: Use a granularity_level parameter to toggle between broad c
 III. The Validation Process (The Adversarial Mirror)
 The Validation process uses "Critic" agents and synthetic testing to stress-test the schema's accuracy.
 The Receptacle Check: Compare the schema against the original text. Identify "Unmapped Data"—parts of the raw text that did not fit the schema. If "Information Loss" exceeds a set threshold (e.g., 10%), trigger a feedback loop for schema expansion.
-Adversarial Text Generation: Generate a completely different, synthetic text input that mimics the style and narrative of the original but includes "Near-Neighbor" decoys (e.g., creating a "Wolf Sanctuary" text to test a "Dog Rescue" schema).
+Adversarial Text Generation: Generate a completely different, synthetic text input that mimics the style and narrative of the original but includes "Near-Neighbor" decoys (e.g., creating a report about 'Toddler Temper Tantrums' to test an 'Autism Spectrum Disorder' schema).
 Instruction-Based Mapping: Apply the newly created schemas to the synthetic text using Instructor and Pydantic.
 Factual Audit: Perform a "Cold Review" of the extraction. Evaluate accuracy from a Coverage vs. Precision standpoint.
 Optimization: Strictly prioritize Accuracy (Precision) over recall to eliminate false positives in downstream deployment.

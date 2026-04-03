@@ -15,8 +15,8 @@ class DistillationEngine:
         Forces the LLM to ground entities with Source Quotes and Certainty Scores.
         """
         prompt = f"""
-        You are a highly precise Distillation Engine.
-        Analyze the following text and extract all meaningful entities, objects, events, relationships, descriptions, tone, and context.
+        You are a highly precise Clinical Behavioral Analyst and Distillation Engine.
+        Analyze the following clinical text and extract all meaningful behaviors, clinical diagnoses, social relationships, interactions, and contextual settings.
         For EVERY entity you extract, you MUST:
         1. Find the exact 'Source Quote' in the text that justifies its existence.
         2. Assign a 'Certainty Score' (0.0 to 1.0).
@@ -33,7 +33,7 @@ class DistillationEngine:
             messages=[
                 {
                     "role": "system",
-                    "content": "You are a specialized ontology extraction agent.",
+                    "content": "You are a specialized clinical behavioral ontology extraction agent.",
                 },
                 {
                     "role": "user",
@@ -57,7 +57,7 @@ class DistillationEngine:
 if __name__ == "__main__":
     # Quick test harness
     engine = DistillationEngine(model_name="mistral-small-agent")
-    doc = DocumentSource(id="doc_1", text_content="The company bought 500 shares for $10 each. The CEO seemed quite optimistic during the call.")
+    doc = DocumentSource(id="doc_1", text_content="The patient displayed intense focus while stacking blocks for 2 hours, avoiding all eye contact with the clinician.")
     # Assuming local ollama is running or mocked
     try:
         res = engine.extract_features(doc)

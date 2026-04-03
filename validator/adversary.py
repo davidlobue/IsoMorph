@@ -11,7 +11,7 @@ class AdversaryEngine:
     """
     Generates completely different, synthetic text input that mimics the style and narrative 
     of the original but includes "Near-Neighbor" decoys.
-    (e.g., creating a "Wolf Sanctuary" text to test a "Dog Rescue" schema)
+    (e.g., creating a report about 'Toddler Temper Tantrums' to test an 'Autism Spectrum Disorder' schema)
     """
     def __init__(self, model_name: str = "mistral-small-agent", base_url: str = "http://localhost:11434/v1"):
         self.model_name = model_name
@@ -34,7 +34,7 @@ class AdversaryEngine:
             messages=[
                 {
                     "role": "system",
-                    "content": "You are the Adversary. Your job is to generate deceptive texts to break ontology schemas."
+                    "content": "You are the Adversary. Your job is to generate deceptive clinical texts to break behavioral ontology schemas."
                 },
                 {"role": "user", "content": prompt}
             ],
@@ -45,7 +45,7 @@ class AdversaryEngine:
 
 if __name__ == "__main__":
     adv = AdversaryEngine("mistral-small-agent")
-    doc = DocumentSource(id="test", text_content="An investor bought 50,000 shares of Apple Inc. yesterday at market close.")
+    doc = DocumentSource(id="test", text_content="The 6-year-old child resisted transitions between classroom activities, crying heavily for 15 minutes and requiring physical comforting from the teacher.")
     try:
         res = adv.generate_adversarial_text(doc)
         print("Generated text:", res.synthetic_text)

@@ -28,16 +28,18 @@ def main():
     doc1 = DocumentSource(
         id="doc_001",
         text_content="""
-        On October 4, 2023, Jonathan Doe (CEO) acquired 1,500 Class A Common Shares 
-        of Acme Corp at a price of $12.50 per share. The transaction was open market.
+        Patient Assessment - Oct 4, 2023:
+        Jordan exhibited highly repetitive physical motions, specifically hand-flapping, 
+        when the classroom environment became too loud. He did not engage in verbal communication for 45 minutes.
         """
     )
     
     doc2 = DocumentSource(
         id="doc_002",
         text_content="""
-        Jane Smith, CFO of Acme Corp, sold 400 shares of Class B Common stock 
-        on October 5, 2023 at $14.20 per share to cover tax withholding obligations.
+        In-home Observation - Oct 5, 2023:
+        During dinner, Jordan successfully maintained eye contact with his sibling when asking for water.
+        However, when transitioned to bedtime, severe physical agitation and distress was observed.
         """
     )
     
