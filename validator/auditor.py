@@ -51,11 +51,11 @@ class AuditorEngine:
         result = self.client.chat.completions.create(
             model=self.model_name,
             messages=[
-                {"role": "system", "content": "Extract information exactly matching the provided JSON schema. Ensure strict accuracy."},
+                {"role": "system", "content": "Extract information exactly matching the provided JSON schema. Ensure strict accuracy. Please maintain your output under roughly 4000 tokens if possible."},
                 {"role": "user", "content": text}
             ],
             response_model=schema,
-            max_tokens=4000
+            max_tokens=8000
         )
         return result
 

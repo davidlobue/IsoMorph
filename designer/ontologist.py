@@ -26,6 +26,7 @@ class OntologistEngine:
         (For example, if evaluating clinical behavior: ['Behavior', 'Social Interaction', 'Direct Contact', 'Avoids Eye Contact']).
         
         Also identify unique "Elements" (Differentiators). How is each unique from the others?
+        Please provide a comprehensive response but target an output length under roughly 8000 tokens to ensure stability.
         
         Features to Categorize:
         {features_json}
@@ -38,7 +39,7 @@ class OntologistEngine:
                 {"role": "user", "content": prompt}
             ],
             response_model=EntityOntologyList,
-            max_tokens=8000
+            max_tokens=12000
         )
         return response.ontologies
 

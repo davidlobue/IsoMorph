@@ -24,6 +24,7 @@ class DistillationEngine:
         3. Differentiate between the 'shadow' (how it appeared in the text) and the 'form' (its general meaning).
         
         Focus strictly on minimizing false positives. Do not hallucinate entities not strictly in the text.
+        Please provide a comprehensive but concise response, targeting an output length of under roughly 4000 tokens.
         
         Text to analyze:
         {document.text_content}
@@ -42,7 +43,7 @@ class DistillationEngine:
                 }
             ],
             response_model=FeatureExtractionResult,
-            max_tokens=4000
+            max_tokens=8000
         )
         return extraction
 

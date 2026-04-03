@@ -24,6 +24,7 @@ class AdversaryEngine:
         Then, generate a completely new, synthetic text that mimics the exact style, structure, and tone.
         However, sharply shift the actual domain/subject matter to a "Near-Neighbor".
         Include specific 'decoy' entities that look similar to the original domain but are fundamentally different.
+        Please keep the response concise, targeting an output length under roughly 2000 tokens.
         
         Original Text:
         {original_document.text_content}
@@ -39,7 +40,7 @@ class AdversaryEngine:
                 {"role": "user", "content": prompt}
             ],
             response_model=SyntheticTextResult,
-            max_tokens=2000
+            max_tokens=5000
         )
         return adversarial_result
 
