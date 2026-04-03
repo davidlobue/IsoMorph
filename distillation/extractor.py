@@ -1,0 +1,67 @@
+import instructor
+from openai import OpenAI
+from typing import List, Optional
+from core.models import DocumentSource, FeatureExtractionResult
+
+class DistillationEngine:
+    def __init__(self, model_name: str = "mistral-small-agent", base_url: str = "http://localhost:11434/v1"):
+        self.model_name = model_name
+        self.base_url = base_url
+        self.client = instructor.from_openai(OpenAI(base_url=self.base_url, api_key="ollama"), mode=instructor.Mode.JSON_SCHEMA)
+
+    def extract_features(self, document: DocumentSource) -> FeatureExtractionResult:
+        """
+        Uses Instructor to extract heavily structured Atomic Features from text.
+        Forces the LLM to ground entities with Source Quotes and Certainty Scores.
+        """
+        prompt = f"""
+        You are a highly precise Distillation Engine.
+        Analyze the following text and extract all meaningful entities, objects, events, relationships, descriptions, tone, and context.
+        For EVERY entity you extract, you MUST:
+        1. Find the exact 'Source Quote' in the text that justifies its existence.
+        2. Assign a 'Certainty Score' (0.0 to 1.0).
+        3. Differentiate between the 'shadow' (how it appeared in the text) and the 'form' (its general meaning).
+        
+        Focus strictly on minimizing false positives. Do not hallucinate entities not strictly in the text.
+        
+        Text to analyze:
+        {document.text_content}
+        """
+
+        extraction = self.client.chat.completions.create(
+            model=self.model_name,
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are a specialized ontology extraction agent.",
+                },
+                {
+                    "role": "user",
+                    "content": prompt,
+                }
+            ],
+            response_model=FeatureExtractionResult,
+            max_tokens=4000
+        )
+        return extraction
+
+    def multi_source_review(self, documents: List[DocumentSource]) -> List[FeatureExtractionResult]:
+        """
+        Processes multiple documents through the extraction engine.
+        """
+        results = []
+        for doc in documents:
+            results.append(self.extract_features(doc))
+        return results
+
+if __name__ == "__main__":
+    # Quick test harness
+    engine = DistillationEngine(model_name="mistral-small-agent")
+    doc = DocumentSource(id="doc_1", text_content="The company bought 500 shares for $10 each. The CEO seemed quite optimistic during the call.")
+    # Assuming local ollama is running or mocked
+    try:
+        res = engine.extract_features(doc)
+        print(f"Extracted {len(res.features)} features.")
+    except Exception as e:
+        print(f"Error (likely no local LLM running): {e}")
+

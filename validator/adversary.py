@@ -1,0 +1,54 @@
+import instructor
+from openai import OpenAI
+from pydantic import BaseModel, Field
+from core.models import DocumentSource
+
+class SyntheticTextResult(BaseModel):
+    synthetic_text: str = Field(description="The generated adversarial text.")
+    decoy_points: list[str] = Field(description="List of near-neighbor decoys included to test boundaries.")
+
+class AdversaryEngine:
+    """
+    Generates completely different, synthetic text input that mimics the style and narrative 
+    of the original but includes "Near-Neighbor" decoys.
+    (e.g., creating a "Wolf Sanctuary" text to test a "Dog Rescue" schema)
+    """
+    def __init__(self, model_name: str = "mistral-small-agent", base_url: str = "http://localhost:11434/v1"):
+        self.model_name = model_name
+        self.base_url = base_url
+        self.client = instructor.from_openai(OpenAI(base_url=self.base_url, api_key="ollama"), mode=instructor.Mode.JSON_SCHEMA)
+
+    def generate_adversarial_text(self, original_document: DocumentSource) -> SyntheticTextResult:
+        prompt = f"""
+        Analyze the following original text. 
+        Then, generate a completely new, synthetic text that mimics the exact style, structure, and tone.
+        However, sharply shift the actual domain/subject matter to a "Near-Neighbor".
+        Include specific 'decoy' entities that look similar to the original domain but are fundamentally different.
+        
+        Original Text:
+        {original_document.text_content}
+        """
+
+        adversarial_result = self.client.chat.completions.create(
+            model=self.model_name,
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are the Adversary. Your job is to generate deceptive texts to break ontology schemas."
+                },
+                {"role": "user", "content": prompt}
+            ],
+            response_model=SyntheticTextResult,
+            max_tokens=2000
+        )
+        return adversarial_result
+
+if __name__ == "__main__":
+    adv = AdversaryEngine("mistral-small-agent")
+    doc = DocumentSource(id="test", text_content="An investor bought 50,000 shares of Apple Inc. yesterday at market close.")
+    try:
+        res = adv.generate_adversarial_text(doc)
+        print("Generated text:", res.synthetic_text)
+        print("Decoys:", res.decoy_points)
+    except Exception as e:
+        print("LLM Error:", e)
