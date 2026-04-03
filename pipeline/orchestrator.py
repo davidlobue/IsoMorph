@@ -28,6 +28,8 @@ class Orchestrator:
         self.ontology_depth = ontology_depth
         self.strict_typing = strict_typing
         
+        print(f"[*] Orchestrator initialized. Model: {self.model_name} | Base URL: {self.base_url}")
+        
         # Engines
         self.distillation = DistillationEngine(model_name, base_url, api_key)
         self.ontologist = OntologistEngine(model_name, base_url, api_key)
