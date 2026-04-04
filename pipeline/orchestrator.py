@@ -54,7 +54,7 @@ class Orchestrator:
         print(f"[+] Extracted {len(all_triples)} raw topological triples.")
         print("[*] Running algorithmic Louvain community detection natively routing the graph...")
         start_time = time.time()
-        communities = self.explorer.run_louvain_clustering(all_triples)
+        communities, louvain_graph = self.explorer.run_louvain_clustering(all_triples)
         print(f"[TIMER] Louvain graph isolation mapped in {time.time() - start_time:.2f}s")
         print(f"[+] Detected {len(communities)} distinct logic clusters.")
         
@@ -69,7 +69,22 @@ class Orchestrator:
             
         print("[*] Generating dynamic constraint-based Python models...")
         discovered_schema = self.hardener.generate_dynamic_schema(clusters)
+        
+        import json
+        if self.verbose:
+            print("\\n[VERBOSE] Explicit Hardened Pydantic Blueprint Configuration:")
+            print(json.dumps(discovered_schema.model_json_schema(), indent=2))
+        
         print(f"[+] Root Discovery Schema Instantiated Successfully: {discovered_schema.__name__}")
+        
+        # Deploy Graph Rendering Natively
+        from discovery.visualizer import GraphVisualizer
+        print("[*] Rendering Discovery Layout to PyVis topological network...")
+        visualizer_start = time.time()
+        viz_file = GraphVisualizer.render_communities(louvain_graph, communities, "knowledge_graph.html")
+        print(f"[TIMER] Graphical parsing took: {time.time() - visualizer_start:.2f}s")
+        print(f"[+] Interactive UI Community Layout generated at: {viz_file}")
+        
         return discovered_schema
 
     def run_pipeline(self, documents: List[DocumentSource]) -> Type[BaseModel]:
