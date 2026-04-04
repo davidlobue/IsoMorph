@@ -29,7 +29,7 @@ class ExplorerEngine:
         )
         return response.triples
 
-    def run_louvain_clustering(self, all_triples: List[RawTriple], resolution: float = 1.0, advanced_heuristics: bool = True, k_core_pruning: bool = True, neighborhood_isomorphism: bool = True, auto_resolution_tuning: bool = True) -> tuple[List[List[str]], nx.Graph]:
+    def run_louvain_clustering(self, all_triples: List[RawTriple], resolution: float = 1.0, advanced_heuristics: bool = True, k_core_pruning: bool = True, neighborhood_isomorphism: bool = True, auto_resolution_tuning: bool = True, verbose: bool = False) -> tuple[List[List[str]], nx.Graph]:
         """
         Loads all unstructured triples actively into NetworkX, and runs standard Louvain community detection.
         
@@ -62,6 +62,8 @@ class ExplorerEngine:
                 parent = list(graph.neighbors(leaf))[0]
                 leaf_parents[leaf] = parent
             graph.remove_nodes_from(leaves)
+            if verbose:
+                print(f"[VERBOSE] K-Core Pruning: Sequestered {len(leaves)} leaf noise nodes. Core graph contains {len(graph.nodes)} dense nodes.")
             
             if len(graph.nodes) == 0:
                 graph.add_edges_from([(l, p) for l, p in leaf_parents.items()])
@@ -86,10 +88,14 @@ class ExplorerEngine:
         if auto_resolution_tuning:
             current_res = 1.5
             limit = int(total_triples * 0.15)
+            if verbose:
+                print(f"[VERBOSE] Auto-Resolution Sweeper: Target max bounding limit = {limit} communities.")
             # Failsafe limit floor 0.1
             while current_res >= 0.1:
                 communities = louvain_communities(graph, resolution=current_res, weight='weight')
                 if len(communities) <= limit:
+                    if verbose:
+                        print(f"[VERBOSE] Auto-Resolution stabilized at sensitivity scale {current_res:.2f} rendering {len(communities)} core distinct logic atoms.")
                     break
                 current_res -= 0.2
         else:
@@ -125,6 +131,8 @@ class ExplorerEngine:
             num_clusters = len(base_clusters)
             merger_graph = nx.Graph()
             merger_graph.add_nodes_from(range(num_clusters))
+            if verbose:
+                print(f"[VERBOSE] Structural Jaccard Merger: Cross-evaluating {num_clusters} atomic communities for logical isomorphism.")
             
             for i in range(num_clusters):
                 for j in range(i + 1, num_clusters):
@@ -149,6 +157,9 @@ class ExplorerEngine:
                 for idx in component:
                     merged.update(base_clusters[idx])
                 final_communities.append(list(merged))
+                
+            if verbose:
+                print(f"[VERBOSE] Topology Refinement: Jaccard overlay compressed {num_clusters} raw logic atoms solidly into exactly {len(final_communities)} unified master schemas.")
                 
             return final_communities, graph
         else:

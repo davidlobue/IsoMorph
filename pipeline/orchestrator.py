@@ -92,7 +92,8 @@ class Orchestrator:
             advanced_heuristics=self.advanced_heuristics,
             k_core_pruning=self.k_core_pruning,
             neighborhood_isomorphism=self.neighborhood_isomorphism,
-            auto_resolution_tuning=self.auto_resolution_tuning
+            auto_resolution_tuning=self.auto_resolution_tuning,
+            verbose=self.verbose
         )
         print(f"[TIMER] Louvain graph isolation mapped in {time.time() - start_time:.2f}s")
         print(f"[+] Detected {len(communities)} distinct logic clusters.")
