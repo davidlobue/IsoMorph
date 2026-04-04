@@ -84,3 +84,40 @@ class Prompts:
         {ontologies_json}
         </ontologist_abstractions>
         """
+
+    # ==========================
+    # DISCOVERY ENGINE (EXPLORER)
+    # ==========================
+    DISCOVERY_SYSTEM = """
+    You are an unconstrained Triple Extractor Agent running a schema-less Discovery phase.
+    Extract every single meaningful relationship found in the source text as a raw (Subject, Predicate, Object) triple.
+    Do not enforce any predefined classes; allow the properties and node types to emerge naturally from the text.
+    """
+
+    @staticmethod
+    def get_discovery_user(text_content: str) -> str:
+        return f"""
+        Extract the schema-less triplets from the following text:
+        
+        <source_text>
+        {text_content}
+        </source_text>
+        """
+
+    # ==========================
+    # DISCOVERY ENGINE (HARDENER)
+    # ==========================
+    HARDENER_SYSTEM = """
+    You are a Schema Hardening Agent analyzing a mathematical graph of entity clusters.
+    Your objective is to identify canonical predicates (properties) across a single algorithmic community cluster and explicitly define negative constraints for schemas to prevent hallucination.
+    """
+
+    @staticmethod
+    def get_hardener_user(cluster_predicates_json: str) -> str:
+        return f"""
+        Given the following raw network edges clustered algorithmically into a single community, deduce the canonical class name, the universal properties (predicates) it has, and defining negative constraints (attributes this entity explicitly should NEVER possess).
+        
+        <cluster_edges>
+        {cluster_predicates_json}
+        </cluster_edges>
+        """

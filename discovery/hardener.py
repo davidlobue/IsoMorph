@@ -1,0 +1,66 @@
+import instructor
+from typing import List, Dict, Type
+from pydantic import create_model, BaseModel, Field
+from core.models import RawTriple, DiscoveryCluster
+from core.config import LLMConfig
+from core.prompts import Prompts
+
+class HardenerEngine:
+    """
+    Executes Phase 2 of Discovery natively. 
+    Connects to algorithmic modular communities to systematically extract central canonical predicates 
+    and explicitly ban hallucinative traits via negative constraints.
+    """
+    def __init__(self):
+        self.model_name = LLMConfig.get_model_name()
+        self.client = LLMConfig.get_client()
+
+    def canonicalize_cluster(self, community_nodes: List[str], all_triples: List[RawTriple]) -> DiscoveryCluster:
+        """
+        Extracts all relevant topology edges involving the given subgraph and runs rigorous LLM evaluation to lock native structures.
+        """
+        # Filter all triples involving ANY node inside this community
+        relevant_triples = [
+            t for t in all_triples 
+            if t.subject in community_nodes or t.object in community_nodes
+        ]
+        
+        edges_json = "\\n".join([f"[{t.subject}] --({t.predicate})--> [{t.object}]" for t in relevant_triples])
+        
+        # Pydantic JSON enforcement natively handles canonical constraints
+        response = self.client.chat.completions.create(
+            model=self.model_name,
+            messages=[
+                {"role": "system", "content": Prompts.HARDENER_SYSTEM},
+                {"role": "user", "content": Prompts.get_hardener_user(edges_json)}
+            ],
+            response_model=DiscoveryCluster,
+            max_tokens=8000
+        )
+        return response
+
+    def generate_dynamic_schema(self, clusters: List[DiscoveryCluster]) -> Type[BaseModel]:
+        """
+        Dynamically generates hard Pydantic models from the canonicalized clusters defining rigid, constraint-based Python classes.
+        """
+        fields = {}
+        for cluster in clusters:
+            # We construct a nested schema for each detected class type
+            class_fields = {}
+            for predicate in cluster.canonical_predicates:
+                # Sanitized pydantic string rules
+                safe_predicate = predicate.replace(" ", "_").lower()
+                class_fields[safe_predicate] = (str, Field(..., description=f"Canonical property: {predicate}"))
+            
+            # Map negative constraints strictly onto the schema logic documentation block
+            safe_class_name = "".join(x for x in cluster.class_name.title() if x.isalnum())
+            doc_string = f"Discovered Class: {cluster.class_name}.\\nNEGATIVE CONSTRAINTS:\\n" + "\\n".join(f"- {nc}" for nc in cluster.negative_constraints)
+            
+            dynamic_model = create_model(f"{safe_class_name}Model", **class_fields)
+            dynamic_model.__doc__ = doc_string
+            
+            field_key = safe_class_name.lower()
+            fields[field_key] = (dynamic_model, Field(..., description=f"Dynamically generated schema for {cluster.class_name}"))
+
+        RootSchema = create_model("DiscoveredBlueprint", **fields)
+        return RootSchema
