@@ -5,12 +5,17 @@ class SourceQuote(BaseModel):
     quote: str = Field(description="The exact quote from the source text.")
     context: str = Field(description="Brief explanation of the context in which this quote appeared.")
 
+class ExtractedRelationship(BaseModel):
+    target_entity: str = Field(description="The name of the entity this feature connects to.")
+    relationship_type: str = Field(description="The nature of the connectedness (e.g. 'walks', 'speaks to').")
+
 class AtomicFeature(BaseModel):
     name: str = Field(description="The distinct name of the identified entity, object, event, or relationship.")
     type: str = Field(description="Categorization of the feature (e.g., Person, Organization, Event, Tone).")
     description: str = Field(description="Detailed explanation of the feature.")
     source_grounding: SourceQuote = Field(description="Direct evidence from the text.")
     certainty_score: float = Field(description="Confidence score from 0.0 to 1.0 that this feature actually meant what was extracted.")
+    relationships: List[ExtractedRelationship] = Field(default_factory=list, description="0...N explicitly stated node-edge relationships connecting this entity to others.")
 
 class FeatureExtractionResult(BaseModel):
     features: List[AtomicFeature] = Field(default_factory=list, description="Extracted atomic features from the source text.")

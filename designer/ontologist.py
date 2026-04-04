@@ -13,7 +13,7 @@ class OntologistEngine:
         
     def _batch_apply_platonic_ladder(self, features: List[AtomicFeature], text_summary: str, ontology_depth: int) -> List[EntityOntology]:
         features_json = "\\n\\n".join([
-            f"Feature Name: {f.name}\\nType: {f.type}\\nDescription: {f.description}" 
+            f"Feature Name: {f.name}\\nType: {f.type}\\nDescription: {f.description}\\nRelationships: {', '.join([f'({r.relationship_type})->[{r.target_entity}]' for r in f.relationships])}" 
             for f in features
         ])
         
