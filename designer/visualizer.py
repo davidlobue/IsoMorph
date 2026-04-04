@@ -33,7 +33,16 @@ class OntologyVisualizer:
             )
             
         # Add edges
+        existing_node_ids = {node.id for node in kg.nodes}
         for edge in kg.edges:
+            # Fallback error handling: auto-inject any ghost edge nodes that bypassed mapping
+            if edge.source not in existing_node_ids:
+                net.add_node(edge.source, label=edge.source, title="Unknown Source", group="Ghost", color="#8b949e", size=15)
+                existing_node_ids.add(edge.source)
+            if edge.target not in existing_node_ids:
+                net.add_node(edge.target, label=edge.target, title="Abstract Topology Vertex", group="Ghost", color="#8b949e", size=15)
+                existing_node_ids.add(edge.target)
+                
             net.add_edge(
                 edge.source, 
                 edge.target, 

@@ -55,6 +55,7 @@ class OntologistEngine:
         """
         kg = KnowledgeGraph()
         nx_graph = nx.DiGraph()
+        added_nodes = set()
 
         for ont in ontologies:
             hierarchy = ont.category.hierarchy
@@ -67,13 +68,21 @@ class OntologistEngine:
             # Use differentiators as properties
             properties = {diff.name: diff.value for diff in ont.differentiators}
             
-            node = KnowledgeGraphNode(id=leaf_node, type=parent_node, properties=properties)
-            kg.nodes.append(node)
+            if leaf_node not in added_nodes:
+                node = KnowledgeGraphNode(id=leaf_node, type=parent_node, properties=properties)
+                kg.nodes.append(node)
+                added_nodes.add(leaf_node)
             
             for i in range(len(hierarchy) - 1):
                 child = hierarchy[i+1]
                 parent = hierarchy[i]
                 kg.edges.append(KnowledgeGraphEdge(source=child, target=parent, relationship="IS_A"))
+                
+                # Natively cache the abstract parent layer so the renderer never faults
+                if parent not in added_nodes:
+                    grandparent = hierarchy[i-1] if i > 0 else "Root"
+                    kg.nodes.append(KnowledgeGraphNode(id=parent, type=grandparent, properties={}))
+                    added_nodes.add(parent)
                 
                 nx_graph.add_node(child, type=parent, **(properties if i == len(hierarchy)-2 else {}))
                 nx_graph.add_node(parent, type="Categorical_Genus")
