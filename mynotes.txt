@@ -1,0 +1,52 @@
+To speed up the ExplorerEngine.extract_raw_triples process without sacrificing the "Platonic" accuracy you need, 
+you should shift from a sequential, "one-size-fits-all" extraction to a decomposed and concurrent pipeline.
+Currently, your bottleneck is likely the high token latency of an LLM trying to perform both discovery and structuring in a
+ single pass.
+ 
+ High Throughput via ConcurrencySince you are in a pure Python environment, the first win is 
+ moving from synchronous calls to Asynchronous Batching.
+ Task 1.1: Implement asyncio with instructor. Switch your client to instructor.from_provider(..., async_client=True).
+  This allows you to fire off multiple extraction requests for different documents simultaneously rather than 
+  waiting for one to finish before starting the next.
+
+  Task 1.2: Semaphore Control. 
+  Use an asyncio.Semaphore(n) to cap concurrent requests (e.g., $n=10$) to prevent hitting rate limits while still maximizing 
+  your "network-bound" idle time.
+  
+  Task 1.3: Use create_iterable. 
+  Instead of one massive JSON object, use instructor’s create_iterable to stream triples as they are generated. 
+  This allows the Knowledge Graph mapping to begin while the   LLM is still finishing the rest of the document.
+  
+
+
+2. [To Achieve Y]: Model Distillation (The "Small Model" Filter)
+  You don't always need a massive "frontier" model (like GPT-4o or Claude 3.5 Sonnet) for the first pass of raw triple
+   extraction.
+   Task 2.1: The 80/20 Extraction Split. Use a significantly faster, smaller model (like Haiku, Flash, or
+    a local SmolLM/Qwen-3B) for the initial "Discovery" phase to pull high-volume raw triples.
+    
+Task 2.2: 
+    Semantic Deduplication before "Hardening". Once the small model extracts raw triples, use a local Python script 
+    (with sentence-transformers) to group similar triples.
+    Task 2.3: Targeted Validation. Only send the unique or complex clusters to your high-reasoning model (the "Platonic Designer") to finalize the schema. This reduces the number of
+     expensive, slow calls by 60–80%.
+
+
+3. [To Achieve Z]: Structural Optimization
+Optimization isn't just about speed; it's about reducing the "work" the LLM has to do.
+
+     Task 3.1: Token Minimization. In your Pydantic models, use short field names and avoid verbose descriptions. 
+     Use Field(description="...") only for the most ambiguous fields.
+     Task 3.2: Chunk Overlap Logic. If you are splitting a corpus, ensure a 10–15% overlap between chunks.
+      This allows the ExplorerEngine to maintain context across boundaries without needing to re-read the entire 
+      document history for every call.
+
+       Task 3.3: Post-Extraction Graph "Compaction". Instead of asking the LLM to resolve entities (which is slow),
+        do it in Python. Extract (Dave, works_at, Startup) and (David, employed_by, Startup), then use a Levenshtein 
+        distance or cosine similarity check in your script to merge them into a single node.
+        Recommended Sequence for   Speed:Split: Document $\rightarrow$ Overlapping Chunks.
+        Parallel Extract (Async): Small Model $\rightarrow$  Raw Triples (Unvalidated).
+        Python Filter: Deduplicate and Cluster in-memory (NetworkX).Platonic Hardening:
+           High-Reasoning Model $\rightarrow$ Final Schema & Mapping.Graph Write: Batch write to KG.By decoupling the 
+           Triple Discovery (cheap/fast) from the Ontological Mapping (expensive/accurate), you can achieve near
+            real-time performance on a Linux/Ubuntu dev environment while keeping your KG integrity high.

@@ -13,9 +13,9 @@ class HardenerEngine:
     """
     def __init__(self):
         self.model_name = LLMConfig.get_model_name()
-        self.client = LLMConfig.get_client()
+        self.async_client = LLMConfig.get_async_client()
 
-    def canonicalize_cluster(self, community_nodes: List[str], all_triples: List[RawTriple]) -> DiscoveryCluster:
+    async def canonicalize_cluster(self, community_nodes: List[str], all_triples: List[RawTriple]) -> DiscoveryCluster:
         """
         Extracts all relevant topology edges involving the given subgraph and runs rigorous LLM evaluation to lock native structures.
         """
@@ -28,14 +28,13 @@ class HardenerEngine:
         edges_json = "\\n".join([f"[{t.subject}] --({t.predicate})--> [{t.object}]" for t in relevant_triples])
         
         # Pydantic JSON enforcement natively handles canonical constraints
-        response = self.client.chat.completions.create(
+        response = await self.async_client.chat.completions.create(
             model=self.model_name,
             messages=[
                 {"role": "system", "content": Prompts.HARDENER_SYSTEM},
                 {"role": "user", "content": Prompts.get_hardener_user(edges_json)}
             ],
-            response_model=DiscoveryCluster,
-            max_tokens=8000
+            response_model=DiscoveryCluster
         )
         return response
 

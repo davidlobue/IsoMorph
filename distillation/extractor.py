@@ -9,14 +9,14 @@ from core.prompts import Prompts
 class DistillationEngine:
     def __init__(self):
         self.model_name = LLMConfig.get_model_name()
-        self.client = LLMConfig.get_client()
+        self.async_client = LLMConfig.get_async_client()
 
-    def extract_features(self, document: DocumentSource, dynamic_schema: Type[BaseModel]) -> BaseModel:
+    async def extract_features(self, document: DocumentSource, dynamic_schema: Type[BaseModel]) -> BaseModel:
         """
         Uses Instructor to extract heavily structured constraints from text.
         Forces the LLM strictly into the native programmatic Pydantic fields mapped by bounded Discovery logic.
         """
-        extraction = self.client.chat.completions.create(
+        extraction = await self.async_client.chat.completions.create(
             model=self.model_name,
             messages=[
                 {
@@ -29,15 +29,15 @@ class DistillationEngine:
                 }
             ],
             response_model=dynamic_schema,
-            max_tokens=8000
+            #max_tokens=8000
         )
         return extraction
 
-    def multi_source_review(self, documents: List[DocumentSource], dynamic_schema: Type[BaseModel]) -> List[BaseModel]:
+    async def multi_source_review(self, documents: List[DocumentSource], dynamic_schema: Type[BaseModel]) -> List[BaseModel]:
         """
         Processes multiple documents through the extraction engine under the formal mathematical blueprint constraints.
         """
-        results = []
-        for doc in documents:
-            results.append(self.extract_features(doc, dynamic_schema))
-        return results
+        import asyncio
+        tasks = [self.extract_features(doc, dynamic_schema) for doc in documents]
+        results = await asyncio.gather(*tasks)
+        return list(results)

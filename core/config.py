@@ -1,6 +1,6 @@
 import os
 import instructor
-from openai import OpenAI
+from openai import OpenAI, AsyncOpenAI
 from core.auth import get_api_key
 
 class LLMConfig:
@@ -20,7 +20,15 @@ class LLMConfig:
     def get_base_url() -> str:
         base_url = os.getenv("LLM_BASE_URL", "http://localhost:11434/v1")
         if LLMConfig.get_provider() in ["google", "vertex", "vertexai", "gcp"]:
-            # If the user provides a full aiplatform URL or a projects/ endpoint string, 
+            # Dynamically construct the URL if endpoint ID, region, and project ID are provided
+            gcp_project = os.getenv("GCP_PROJECT_ID")
+            gcp_region = os.getenv("GCP_REGION")
+            gcp_endpoint_id = os.getenv("GCP_ENDPOINT_ID")
+            
+            if gcp_project and gcp_region and gcp_endpoint_id:
+                base_url = f"https://{gcp_region}-aiplatform.googleapis.com/v1/projects/{gcp_project}/locations/{gcp_region}/endpoints/{gcp_endpoint_id}"
+
+            # If the user provides a full aiplatform URL or a projects/ endpoint string (or if we just constructed it), 
             # we convert it to the required dedicated endpoint DNS for vLLM compatibility.
             if "aiplatform.googleapis.com" in base_url or "projects/" in base_url:
                 try:
@@ -51,5 +59,12 @@ class LLMConfig:
     def get_client():
         return instructor.from_openai(
             OpenAI(base_url=LLMConfig.get_base_url(), api_key=get_api_key()),
+            mode=instructor.Mode.JSON_SCHEMA
+        )
+
+    @staticmethod
+    def get_async_client():
+        return instructor.from_openai(
+            AsyncOpenAI(base_url=LLMConfig.get_base_url(), api_key=get_api_key()),
             mode=instructor.Mode.JSON_SCHEMA
         )

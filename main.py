@@ -1,5 +1,6 @@
 import sys
 import os
+import asyncio
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -10,7 +11,7 @@ from core.models import DocumentSource
 from pipeline.orchestrator import Orchestrator
 from core.auth import get_api_key
 
-def main():
+async def main():
     print("Initializing Agentic Knowledge Engineering Tool...")
     # Use standard models for pure conceptual run without local ollama blocking,
     # or you can change to a real model like "mistral-small-agent"
@@ -46,13 +47,13 @@ def main():
     docs = [doc1, doc2]
 
     try:
-        final_schema = orchestrator.run_pipeline(docs)
+        final_schema = await orchestrator.run_pipeline(docs)
         print("\nFinal Dynamic Schema JSON Definition:")
-        print(final_schema.model_json_schema())
+        print(final_schema[0].__class__.model_json_schema() if final_schema else "No schema found.")
     except Exception as e:
         print("\n[ERROR] Pipeline execution failed.")
         print(f"Details: {e}")
         print("Note: Ensure your LLM connection is running and variables (LLM_BASE_URL, LLM_MODEL_NAME) are correctly set.")
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
