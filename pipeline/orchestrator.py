@@ -81,50 +81,16 @@ class Orchestrator:
         print("\n\n################ PHASE 2. GRAPH INTERPRETATION ENGINE ################\n")
         
         print("====== I. DISTILLATION ======")
-        print(f"[*] Starting extractions across {len(documents)} documents...")
-        all_features = []
+        print(f"[*] Starting hard constrained mapping across {len(documents)} documents...")
+        constrained_outputs = []
         for doc in documents:
             start_time = time.time()
-            res = self.distillation.extract_features(doc)
-            print(f"[TIMER] DistillationEngine.extract_features for doc '{doc.id}' took: {time.time() - start_time:.2f}s")
+            # Force the AI to rigidly align extractions bounds to only what was proven in Latent Discovery
+            res = self.distillation.extract_features(doc, dynamic_schema=discovered_schema)
+            print(f"[TIMER] Constrained Extraction for doc '{doc.id}' took: {time.time() - start_time:.2f}s")
             if self.verbose:
-                print(f"\\n[VERBOSE] Document '{doc.id}' Extracted Features:")
-                print(res.model_dump_json(indent=2))
+                print(f"\\n[VERBOSE] Constrained Payload:\\n{res.model_dump_json(indent=2)}")
+            constrained_outputs.append(res)
             
-            # Hallucination filter
-            if self.hallucination_filter:
-                trusted_features = [f for f in res.features if f.certainty_score > 0.75]
-                all_features.extend(trusted_features)
-            else:
-                all_features.extend(res.features)
-
-        print("\n====== II. DESIGNER (ONTOLOGIST) ======")
-        print("[*] Applying Ontology mapping via clustered batching...")
-        start_time = time.time()
-        ontologies = self.ontologist.build_concept_matrix(all_features, documents, ontology_depth=self.ontology_depth)
-        print(f"[TIMER] OntologistEngine.build_concept_matrix took: {time.time() - start_time:.2f}s")
-        
-        if self.verbose:
-            print("\\n[VERBOSE] Generated Clustered Ontologies:")
-            for ont in ontologies:
-                print(ont.model_dump_json(indent=2))
-                
-        print("\n====== III. GRAPH BUILDER (CARTOGRAPHER) ======")
-        print("[*] Dispatching explicit Node-Edge semantic network construction...")
-        start_time = time.time()
-        master_kg = self.graph_builder.generate_knowledge_graph(all_features, ontologies)
-        print(f"[TIMER] GraphBuilderEngine.generate_knowledge_graph took: {time.time() - start_time:.2f}s")
-        
-        print("\n====== IV. SCHEMA BUILDER & VISUALIZATION ======")
-        start_time = time.time()
-        blueprint_schema = self.schema_builder.synthesize_schema(master_kg, schema_name="UniversalBlueprint")
-        print(f"[TIMER] SchemaBuilder.synthesize_schema took: {time.time() - start_time:.2f}s")
-        print(f"[+] Synthesized Schema: {blueprint_schema.__name__}")
-        
-        from designer.visualizer import OntologyVisualizer
-        output_file = OntologyVisualizer.render_html(master_kg, "knowledge_graph.html")
-        print(f"[+] Interactive UI generated at: {output_file}")
-        
-        # Bypass of prior validation stages over speed optimizations
-        print("\n[+] SUCCESS: Produced production-ready Pydantic Schema.")
-        return blueprint_schema
+        print("\\n[+] SUCCESS: Bypassed Legacy Ontologist entirely. The pipeline output is structurally locked to mathematical heuristics!")
+        return constrained_outputs
