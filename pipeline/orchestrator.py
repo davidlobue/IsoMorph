@@ -1,11 +1,8 @@
 from typing import List, Type, Optional
 import time
 from pydantic import BaseModel
-from core.models import DocumentSource, KnowledgeGraph
+from core.models import DocumentSource
 from distillation.extractor import DistillationEngine
-from designer.ontologist import OntologistEngine
-from designer.graph_builder import GraphBuilderEngine
-from designer.schema_builder import SchemaBuilder
 from discovery.explorer import ExplorerEngine
 from discovery.hardener import HardenerEngine
 
@@ -33,9 +30,7 @@ class Orchestrator:
         self.explorer = ExplorerEngine()
         self.hardener = HardenerEngine()
         self.distillation = DistillationEngine()
-        self.ontologist = OntologistEngine()
-        self.graph_builder = GraphBuilderEngine()
-        self.schema_builder = SchemaBuilder(strict_typing=strict_typing)
+
 
     def run_discovery(self, documents: List[DocumentSource]) -> Type[BaseModel]:
         """
