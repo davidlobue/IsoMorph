@@ -1,7 +1,8 @@
 import instructor
 from openai import OpenAI
-from typing import List, Optional
-from core.models import DocumentSource, FeatureExtractionResult
+from pydantic import BaseModel
+from typing import List, Optional, Type
+from core.models import DocumentSource
 from core.config import LLMConfig
 from core.prompts import Prompts
 
@@ -10,10 +11,10 @@ class DistillationEngine:
         self.model_name = LLMConfig.get_model_name()
         self.client = LLMConfig.get_client()
 
-    def extract_features(self, document: DocumentSource) -> FeatureExtractionResult:
+    def extract_features(self, document: DocumentSource, dynamic_schema: Type[BaseModel]) -> BaseModel:
         """
-        Uses Instructor to extract heavily structured Atomic Features from text.
-        Forces the LLM to ground entities with Source Quotes and Certainty Scores.
+        Uses Instructor to extract heavily structured constraints from text.
+        Forces the LLM strictly into the native programmatic Pydantic fields mapped by bounded Discovery logic.
         """
         extraction = self.client.chat.completions.create(
             model=self.model_name,
@@ -27,28 +28,16 @@ class DistillationEngine:
                     "content": Prompts.get_distillation_user(document.text_content),
                 }
             ],
-            response_model=FeatureExtractionResult,
+            response_model=dynamic_schema,
             max_tokens=8000
         )
         return extraction
 
-    def multi_source_review(self, documents: List[DocumentSource]) -> List[FeatureExtractionResult]:
+    def multi_source_review(self, documents: List[DocumentSource], dynamic_schema: Type[BaseModel]) -> List[BaseModel]:
         """
-        Processes multiple documents through the extraction engine.
+        Processes multiple documents through the extraction engine under the formal mathematical blueprint constraints.
         """
         results = []
         for doc in documents:
-            results.append(self.extract_features(doc))
+            results.append(self.extract_features(doc, dynamic_schema))
         return results
-
-if __name__ == "__main__":
-    # Quick test harness
-    engine = DistillationEngine(model_name="mistral-small-agent")
-    doc = DocumentSource(id="doc_1", text_content="The patient displayed intense focus while stacking blocks for 2 hours, avoiding all eye contact with the clinician.")
-    # Assuming local ollama is running or mocked
-    try:
-        res = engine.extract_features(doc)
-        print(f"Extracted {len(res.features)} features.")
-    except Exception as e:
-        print(f"Error (likely no local LLM running): {e}")
-
