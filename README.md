@@ -17,10 +17,11 @@ Instead of attempting zero-shot schema extraction, IsoMorph first maps the textu
 3. **Pydantic Hardening:** Highly isolated communities are pulled out of the mesh and translated via the LLM into explicit constraints, locking down hallucination-proof Pydantic models mapping explicit negative traits.
 
 ### Phase 2: Abstraction and Generalization
-Raw extracted blueprints are refined into higher-order generalized schemas using techniques like:
+Raw extracted blueprints are refined into higher-order explicit formal schemas (Functional Role Labeling) by bypassing generic reasoning in favor of rigid structural mapping:
 - **Latent Space Clustering:** Merges nodes mathematically using embedding cosine similarity to pool semantically identical structures.
-- **Taxonomic Lifting:** Dynamically synthesizes top-level ontology labels using the LLM for refined schema naming.
-- **Structural Role Abstraction:** Applies NetworkX graph math (e.g., Degree Centrality) to assign structural types (like Hubs, Bridges, or Leaves) without relying on semantic meaning.
+- **Taxonomic Lifting (Semantic Centroids):** Dynamically deduces the strict formal Hypernym (the 'is-a' broader category) that encompasses all members of a specific cluster, avoiding generic "reasoning" outputs.
+- **Structural Type-Casting:** Applies directed NetworkX graph math (In-Degree vs. Out-Degree) to enforce strict topological node roles (e.g., Entity/Subject, Terminal Attribute, or Relational Verb Link) before reaching the LLM logic layer.
+- **Relational Verb Synthesizer:** When a mathematical relationship bridge is detected, the engine inherently bypasses cognitive LLM generation and anchors the class name directly to the most actively used Present Tense Active Verb observed in the local topology.
 
 ### Phase 3: Graph Interpretation (Distillation)
 The hardened Python Pydantic classes formulated in the prior phases are injected back into the LLM logic engines as strict validation models. The raw text is then blasted against these newly generated master models to yield universally categorized, highly structured JSON configurations matching reality.
