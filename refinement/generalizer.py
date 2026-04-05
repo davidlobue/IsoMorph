@@ -11,7 +11,7 @@ from refinement.prompts import RefinementPrompts
 
 class GeneralizedResponse(BaseModel):
     new_class_name: str = Field(description="The generalized abstract name for the cluster.")
-    reasoning: str = Field(description="Reasoning for this abstract classification.")
+    hypernym: str = Field(description="The formal 'is-a' broader category encompassing all members.")
 
 class GeneralizerEngine:
     """
@@ -79,7 +79,7 @@ class GeneralizerEngine:
                 
                 merged_cluster = DiscoveryCluster(
                     class_name="MergedPool_Pending_Synthesis",
-                    reasoning=f"Latent Spatial Vector Pooling combined ({', '.join(names)}) due to high cosine threshold (>= {threshold}).",
+                    hypernym=f"Latent Spatial Vector Pooling combined ({', '.join(names)}) due to high cosine threshold (>= {threshold}).",
                     nodes=list(set(merged_nodes)),
                     canonical_predicates=list(set(merged_preds)),
                     negative_constraints=list(set(merged_negatives))
@@ -93,21 +93,27 @@ class GeneralizerEngine:
         return final_clusters
 
     async def _safe_taxonomic_lift(self, cluster: DiscoveryCluster, sem: asyncio.Semaphore) -> DiscoveryCluster:
+        hint = "No specific structural topology detected."
+        import re
+        match = re.search(r'<structural_role>(.*?)</structural_role>', cluster.hypernym)
+        if match:
+            hint = match.group(1)
+            
         async with sem:
             class_data_str = cluster.model_dump_json(indent=2)
             res = await self.async_client.chat.completions.create(
                 model=self.model_name,
                 messages=[
                     {"role": "system", "content": RefinementPrompts.TAXONOMIC_LIFTING_SYSTEM},
-                    {"role": "user", "content": RefinementPrompts.get_taxonomic_lifting_user(class_data_str)}
+                    {"role": "user", "content": RefinementPrompts.get_taxonomic_lifting_user(class_data_str, hint)}
                 ],
                 response_model=GeneralizedResponse
             )
             cluster.class_name = res.new_class_name
-            cluster.reasoning = f"[Taxonomic Lift] {res.reasoning}"
+            cluster.hypernym = f"[Taxonomic Lift] {res.hypernym} | <structural_role>{hint}</structural_role>"
             
             with open("logs/generalization_reasoning.md", "a", encoding="utf-8") as f:
-                f.write(f"### Class `{cluster.class_name}` (Taxonomic Lifting)\n\n**Reasoning:**\n{res.reasoning}\n\n---\n\n")
+                f.write(f"### Class `{cluster.class_name}` (Taxonomic Lifting)\n\n**Hypernym:**\n{res.hypernym}\n\n---\n\n")
                 
             return cluster
 
@@ -118,43 +124,52 @@ class GeneralizerEngine:
         tasks = [self._safe_taxonomic_lift(c, sem) for c in clusters]
         return list(await asyncio.gather(*tasks))
 
-    async def apply_structural_role_abstraction(self, clusters: List[DiscoveryCluster], graph: nx.Graph = None) -> List[DiscoveryCluster]:
+    async def apply_structural_role_abstraction(self, clusters: List[DiscoveryCluster], all_triples: List[any] = None) -> List[DiscoveryCluster]:
         if not clusters: return clusters
-        print("[*] Generalizer: Analyzing Structural Motifs & Roles (Code-only Mathematical heuristic)...")
+        print("[*] Generalizer: Analyzing Structural Motifs & Roles (Type-Casting directed properties)...")
         
-        if graph is None or len(graph.nodes) == 0:
+        if not all_triples:
             for i, c in enumerate(clusters):
                 c.class_name = f"Isolated-Component-{i+1}"
-                c.reasoning = "[Structural Motifs] No graph topology available. Force defaulted to Isolated."
+                c.hypernym = "[Structural Motifs] No graph topology available. Force defaulted to Isolated."
             return clusters
 
-        cent = nx.degree_centrality(graph)
-        all_cents = list(cent.values())
-        mean_c = sum(all_cents) / len(all_cents)
-        var_c = sum((x - mean_c) ** 2 for x in all_cents) / len(all_cents)
-        std_c = math.sqrt(var_c)
+        di_graph = nx.DiGraph()
+        for t in all_triples:
+            di_graph.add_edge(t.subject, t.object, label=t.predicate)
+            
+        in_degrees = dict(di_graph.in_degree())
+        out_degrees = dict(di_graph.out_degree())
 
         for i, cluster in enumerate(clusters):
-            c_vals = [cent[n] for n in cluster.nodes if n in cent]
-            if not c_vals:
-                cluster.class_name = f"Disconnected-Module-{i+1}"
-                cluster.reasoning = "[Structural Motifs] Elements not found in mapped topology."
-                continue
+            cluster_in = sum(in_degrees.get(n, 0) for n in cluster.nodes)
+            cluster_out = sum(out_degrees.get(n, 0) for n in cluster.nodes)
             
-            c_mean = sum(c_vals) / len(c_vals)
-            
-            if c_mean >= (mean_c + std_c):
-                name = f"High-Degree-Hub-{i+1}"
-            elif c_mean <= (mean_c - std_c) or c_mean == 0:
-                name = f"Terminal-Leaf-{i+1}"
+            if cluster_out > cluster_in:
+                role = "Entity"
+                desc = "High Out-Degree Entity / Subject Node"
+            elif cluster_in >= 0 and cluster_out == 0:
+                role = "Attribute"
+                desc = "Terminal Attribute / Value Node (Zero Out-Degree)"
             else:
-                name = f"Intermediate-Bridge-{i+1}"
+                role = "RelationalVerb"
+                desc = "Intermediate Bridge / Relational Link"
                 
-            cluster.class_name = name
-            cluster.reasoning = f"[Structural Motifs] Graph Math Assignment: Cluster Mean Centrality = {c_mean:.4f} (Global Mean = {mean_c:.4f}, Std = {std_c:.4f})"
+            if role == "RelationalVerb" and cluster.canonical_predicates:
+                from collections import Counter
+                pred_counts = Counter(cluster.canonical_predicates)
+                most_freq = pred_counts.most_common(1)[0][0]
+                safe_verb = "".join(x.title() for x in most_freq.replace("_", " ").split())
+                cluster.class_name = safe_verb
+                cluster.hypernym = f"[Structural Type-Cast] Identified as Relational Verb Bridge. Top verb: {most_freq}"
+            else:
+                cluster.class_name = f"Unmapped-{role}-{i+1}"
+                cluster.hypernym = f"[Structural Type-Cast] Graph Math Assignment: {role}"
+                
+            cluster.hypernym += f" | <structural_role>{desc}</structural_role>"
             
             with open("logs/generalization_reasoning.md", "a", encoding="utf-8") as f:
-                f.write(f"### Class `{cluster.class_name}` (Structural Roles)\n\n**Reasoning:**\n{cluster.reasoning}\n\n---\n\n")
+                f.write(f"### Class `{cluster.class_name}` (Structural Roles)\n\n**Type-Cast:**\n{cluster.hypernym}\n\n---\n\n")
 
         return clusters
 
@@ -165,7 +180,7 @@ class GeneralizerEngine:
         SeedEnum = Enum("SeedEnum", {s: s for s in seeds})
         StrictSeededResponse = create_model("StrictSeededResponse", 
                                             new_class_name=(SeedEnum, Field(description="Must exactly match one of the predefined seed classes.")),
-                                            reasoning=(str, Field(description="Reasoning explaining this discrete classification.")))
+                                            hypernym=(str, Field(description="The semantic centroid mapping explaining this discrete classification.")))
 
         async with sem:
             seeds_str = ", ".join(seeds)
@@ -180,10 +195,10 @@ class GeneralizerEngine:
                 response_model=StrictSeededResponse
             )
             cluster.class_name = res.new_class_name.value
-            cluster.reasoning = f"[Seeded Meta] {res.reasoning}"
+            cluster.hypernym = f"[Seeded Meta] {res.hypernym}"
             
             with open("logs/generalization_reasoning.md", "a", encoding="utf-8") as f:
-                f.write(f"### Class `{cluster.class_name}` (Seeded Meta-Schemas)\n\n**Reasoning:**\n{res.reasoning}\n\n---\n\n")
+                f.write(f"### Class `{cluster.class_name}` (Seeded Meta-Schemas)\n\n**Hypernym:**\n{res.hypernym}\n\n---\n\n")
                 
             return cluster
 
@@ -199,6 +214,7 @@ class GeneralizerEngine:
     async def refine_blueprint(self, 
                                clusters: List[DiscoveryCluster], 
                                graph: nx.Graph = None,
+                               all_triples: List[any] = None,
                                do_latent: bool = False,
                                do_taxonomic: bool = False,
                                do_structural: bool = False,
@@ -215,7 +231,7 @@ class GeneralizerEngine:
             do_taxonomic = False
             
         if do_structural:
-            clusters = await self.apply_structural_role_abstraction(clusters, graph)
+            clusters = await self.apply_structural_role_abstraction(clusters, all_triples)
             
         if do_taxonomic:
             clusters = await self.apply_taxonomic_lifting(clusters)

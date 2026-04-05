@@ -60,12 +60,13 @@ class Prompts:
     HARDENER_SYSTEM = """
     You are a Schema Hardening Agent analyzing a mathematical graph of entity clusters.
     Your objective is to identify canonical predicates (properties) across a single algorithmic community cluster and explicitly define negative constraints for schemas to prevent hallucination.
+    Instead of step-by-step reasoning, you must deduce the Semantic Centroid (Hypernym) that encompasses all members of the cluster.
     """
 
     @staticmethod
     def get_hardener_user(cluster_predicates_json: str) -> str:
         return f"""
-        Given the following raw network edges clustered algorithmically into a single community, deduce the canonical class name, the universal properties (predicates) it has, and defining negative constraints (attributes this entity explicitly should NEVER possess).
+        Given the following raw network edges clustered algorithmically into a single community, deduce the canonical class name, its broader Semantic Centroid (Hypernym), the universal properties (predicates) it has, and defining negative constraints (attributes this entity explicitly should NEVER possess).
         
         <cluster_edges>
         {cluster_predicates_json}

@@ -29,7 +29,7 @@ class ExplorerEngine:
         )
         return response
 
-    def run_louvain_clustering(self, all_triples: List[RawTriple], resolution: float = 1.0, advanced_heuristics: bool = True, k_core_pruning: bool = True, neighborhood_isomorphism: bool = True, auto_resolution_tuning: bool = True, verbose: bool = False) -> tuple[List[List[str]], nx.Graph]:
+    def run_louvain_clustering(self, all_triples: List[RawTriple], resolution: float = 1.0, advanced_heuristics: bool = True, k_core_pruning: bool = True, neighborhood_isomorphism: bool = True, auto_resolution_tuning: bool = True, verbose: bool = False, graph_output_dir: str = None) -> tuple[List[List[str]], nx.Graph]:
         """
         Loads all unstructured triples actively into NetworkX, and runs standard Louvain community detection.
         
@@ -44,6 +44,8 @@ class ExplorerEngine:
         Returns a nested list of communities natively mapped by node identities.
         """
         import math
+        import os
+        from discovery.visualizer import GraphVisualizer
         graph = nx.Graph() # Undirected graph needed for native Louvain analysis 
         
         for t in all_triples:
@@ -51,6 +53,10 @@ class ExplorerEngine:
             
         if len(graph.nodes) == 0:
             return [], graph
+            
+        if graph_output_dir:
+            os.makedirs(graph_output_dir, exist_ok=True)
+            GraphVisualizer.render_communities(graph, [], os.path.join(graph_output_dir, "1_initial_raw_graph.html"))
             
         total_triples = len(all_triples)
         
@@ -68,6 +74,9 @@ class ExplorerEngine:
             if len(graph.nodes) == 0:
                 graph.add_edges_from([(l, p) for l, p in leaf_parents.items()])
                 leaf_parents = {}
+                
+            if graph_output_dir and len(leaves) > 0:
+                GraphVisualizer.render_communities(graph, [], os.path.join(graph_output_dir, "2_post_k_core_pruning.html"))
 
         if advanced_heuristics:
             # Pass 1: Semantic Entropy ("Community Splitter")
@@ -102,6 +111,9 @@ class ExplorerEngine:
             communities = louvain_communities(graph, resolution=resolution, weight='weight')
             
         base_clusters = [list(c) for c in communities]
+        
+        if graph_output_dir:
+            GraphVisualizer.render_communities(graph, base_clusters, os.path.join(graph_output_dir, "3_base_louvain_communities.html"))
         
         # Re-attach leaves
         if k_core_pruning and leaf_parents:
@@ -160,6 +172,9 @@ class ExplorerEngine:
                 
             if verbose:
                 print(f"[VERBOSE] Topology Refinement: Jaccard overlay compressed {num_clusters} raw logic atoms solidly into exactly {len(final_communities)} unified master schemas.")
+                
+            if graph_output_dir:
+                GraphVisualizer.render_communities(graph, final_communities, os.path.join(graph_output_dir, "4_post_jaccard_merger.html"))
                 
             return final_communities, graph
         else:

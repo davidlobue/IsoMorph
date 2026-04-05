@@ -1,232 +1,220 @@
 {
   "$defs": {
     "ActionModel": {
-      "description": "Discovered Class: Action.\\nNEGATIVE CONSTRAINTS:\\n- NEVER - (Not a TemporalEvent: HasLocation)\\n- NEVER - (Not a TemporalEvent: HasPhysicalAddress)",
+      "description": "Discovered Class: Action.\\nNEGATIVE CONSTRAINTS:\\n- DOES NOT recommend FOR medication_or_fine_repayment Plan types\\n- cannot_recommend_non_educational_services\\n- So, it's explicitly defined that these entities cannot have any attributes or relations related to medication recommendation or non-education services like financial repayment.",
       "properties": {
-        "dateofevaluation____datetime": {
-          "description": "Canonical property: DateOfEvaluation -> DateTime",
-          "title": "Dateofevaluation    Datetime",
+        "recommended_for_plan__individualizededucationprogram_504plan_enum": {
+          "description": "Canonical property: recommended_for_plan: IndividualizedEducationProgram|504Plan Enum",
+          "title": "Recommended For Plan  Individualizededucationprogram 504Plan Enum",
           "type": "string"
         },
-        "dateofreport____datetime": {
-          "description": "Canonical property: DateOfReport -> DateTime",
-          "title": "Dateofreport    Datetime",
+        "so___504plan__and__individualizededucationprogram__are_possible_values_for_a__plans__attribute_": {
+          "description": "Canonical property: So, `504Plan` and `IndividualizedEducationProgram` are possible values for a `plans` attribute.",
+          "title": "So   504Plan  And  Individualizededucationprogram  Are Possible Values For A  Plans  Attribute",
           "type": "string"
         }
       },
       "required": [
-        "dateofevaluation____datetime",
-        "dateofreport____datetime"
+        "recommended_for_plan__individualizededucationprogram_504plan_enum",
+        "so___504plan__and__individualizededucationprogram__are_possible_values_for_a__plans__attribute_"
       ],
       "title": "ActionModel",
       "type": "object"
     },
     "AgentModel": {
-      "description": "Discovered Class: Agent.\\nNEGATIVE CONSTRAINTS:\\n- <PERSON> --(is_dead)-->\\n- <PERSON> --(has_positive_thinking)-->",
+      "description": "Discovered Class: Agent.\\nNEGATIVE CONSTRAINTS:\\n- SHOULD NOT have an age less than 0 or greater than 18.\\n- MAY NOT be referred by a system that is not defined as an [ORGANIZATION] or [PERSON].\\n- MUST be present with at least one of the assessments like (has done assessment)",
       "properties": {
-        "name": {
-          "description": "Canonical property: Name",
-          "title": "Name",
+        "has_name_": {
+          "description": "Canonical property: (has name)",
+          "title": "Has Name",
           "type": "string"
         },
-        "date_of_birth": {
-          "description": "Canonical property: Date of Birth",
-          "title": "Date Of Birth",
+        "was_born_on_": {
+          "description": "Canonical property: (was born on)",
+          "title": "Was Born On",
           "type": "string"
         },
-        "grade": {
-          "description": "Canonical property: Grade",
-          "title": "Grade",
+        "is_chronologically_": {
+          "description": "Canonical property: (is chronologically)",
+          "title": "Is Chronologically",
           "type": "string"
         },
-        "clinician": {
-          "description": "Canonical property: Clinician",
-          "title": "Clinician",
+        "is_aged_": {
+          "description": "Canonical property: (is aged)",
+          "title": "Is Aged",
           "type": "string"
         },
-        "referral_reason": {
-          "description": "Canonical property: Referral Reason",
-          "title": "Referral Reason",
+        "is_in_grade_": {
+          "description": "Canonical property: (is in grade)",
+          "title": "Is In Grade",
           "type": "string"
         },
-        "cooperative_status": {
-          "description": "Canonical property: Cooperative Status",
-          "title": "Cooperative Status",
+        "has_gender_": {
+          "description": "Canonical property: (has gender)",
+          "title": "Has Gender",
           "type": "string"
         },
-        "eye_contact": {
-          "description": "Canonical property: Eye Contact",
-          "title": "Eye Contact",
+        "has_a_developmental_history_with_": {
+          "description": "Canonical property: (has a developmental history with)",
+          "title": "Has A Developmental History With",
           "type": "string"
         },
-        "seat_behavior": {
-          "description": "Canonical property: Seat Behavior",
-          "title": "Seat Behavior",
+        "received_the_following_diagnoses_": {
+          "description": "Canonical property: (received the following diagnoses)",
+          "title": "Received The Following Diagnoses",
           "type": "string"
         },
-        "task_avoidance": {
-          "description": "Canonical property: Task Avoidance",
-          "title": "Task Avoidance",
+        "attends_": {
+          "description": "Canonical property: (attends)",
+          "title": "Attends",
           "type": "string"
         },
-        "thinking_style": {
-          "description": "Canonical property: Thinking Style",
-          "title": "Thinking Style",
+        "has_": {
+          "description": "Canonical property: (has)",
+          "title": "Has",
           "type": "string"
         },
-        "inattention__parental_concerns_": {
-          "description": "Canonical property: Inattention (Parental Concerns)",
-          "title": "Inattention  Parental Concerns",
+        "negative_constraints_for_schema_hardening_agent_to_prevent_hallucinations": {
+          "description": "Canonical property: negative_constraints_for_schema_hardening_agent_to_prevent_hallucinations",
+          "title": "Negative Constraints For Schema Hardening Agent To Prevent Hallucinations",
           "type": "string"
         },
-        "emotional_reactivity__score_": {
-          "description": "Canonical property: Emotional Reactivity (Score)",
-          "title": "Emotional Reactivity  Score",
+        "never_possesses__18_years_old_if__is_in_grade__has_a_value_greater_than_or_equal_to__6th_grade___": {
+          "description": "Canonical property: NEVER possesses <18 years old if 'is in grade' has a value greater than or equal to '6th Grade'. ",
+          "title": "Never Possesses  18 Years Old If  Is In Grade  Has A Value Greater Than Or Equal To  6Th Grade",
           "type": "string"
         },
-        "executive_functioning": {
-          "description": "Canonical property: Executive Functioning",
-          "title": "Executive Functioning",
+        "never_possesses_a__name__attribute_if___was_born_on___and___has_name___are_missing_": {
+          "description": "Canonical property: NEVER possesses a 'name' attribute if '(was born on)' and '(has name)' are missing.",
+          "title": "Never Possesses A  Name  Attribute If   Was Born On   And   Has Name   Are Missing",
           "type": "string"
         },
-        "adhd_diagnosis": {
-          "description": "Canonical property: ADHD Diagnosis",
-          "title": "Adhd Diagnosis",
+        "never_exhibits_": {
+          "description": "Canonical property: NEVER exhibits ",
+          "title": "Never Exhibits",
           "type": "string"
         },
-        "anxiety_disorder_diagnosis": {
-          "description": "Canonical property: Anxiety Disorder Diagnosis",
-          "title": "Anxiety Disorder Diagnosis",
+        "a_minimum_of_four_to_five_verbal_prompts": {
+          "description": "Canonical property: a minimum of four to five verbal prompts",
+          "title": "A Minimum Of Four To Five Verbal Prompts",
           "type": "string"
         },
-        "has_problem_at_home": {
-          "description": "Canonical property: has_problem_at_home",
-          "title": "Has Problem At Home",
+        "without_prompting_if___had_issues_in___is_not_present_": {
+          "description": "Canonical property:  without prompting if '(had issues in)' is not present ",
+          "title": "Without Prompting If   Had Issues In   Is Not Present",
           "type": "string"
         },
-        "has_issue_at_school": {
-          "description": "Canonical property: has_issue_at_school",
-          "title": "Has Issue At School",
+        "never_has_superior_range_performance_if______struggles_to_output_the_work_at_the_same_pace_as_their_peers__missing_": {
+          "description": "Canonical property: NEVER has Superior range performance if ',' (struggles to output the work at the same pace as their peers' missing.",
+          "title": "Never Has Superior Range Performance If      Struggles To Output The Work At The Same Pace As Their Peers  Missing",
           "type": "string"
         },
-        "has_impulse_control_problem_at_school": {
-          "description": "Canonical property: has_impulse_control_problem_at_school",
-          "title": "Has Impulse Control Problem At School",
+        "never_meets_criteria_for__diagnosis__if___patient_____meets_the_diagnostic_criteria_for______diagnosis___is_not_explicitly_defined_": {
+          "description": "Canonical property: NEVER meets criteria for <Diagnosis> if '<PATIENT> --(meets the diagnostic criteria for)--> <Diagnosis>' is not explicitly defined.",
+          "title": "Never Meets Criteria For  Diagnosis  If   Patient     Meets The Diagnostic Criteria For      Diagnosis   Is Not Explicitly Defined",
           "type": "string"
         },
-        "has_executive_function_dysfunction_at_school": {
-          "description": "Canonical property: has_executive_function_dysfunction_at_school",
-          "title": "Has Executive Function Dysfunction At School",
+        "never_has__escape_behaviors__during_home_work_sessions__without_having__has_behavioral_issues_in_class_room_": {
+          "description": "Canonical property: NEVER has 'escape behaviors' during home work sessions, without having (has behavioral issues in class room)",
+          "title": "Never Has  Escape Behaviors  During Home Work Sessions  Without Having  Has Behavioral Issues In Class Room",
           "type": "string"
         },
-        "struggles_with": {
-          "description": "Canonical property: struggles_with",
-          "title": "Struggles With",
+        "never_possesses_a__": {
+          "description": "Canonical property: NEVER possesses a '",
+          "title": "Never Possesses A",
           "type": "string"
         },
-        "meets_criteria_for": {
-          "description": "Canonical property: meets_criteria_for",
-          "title": "Meets Criteria For",
-          "type": "string"
-        },
-        "also_has": {
-          "description": "Canonical property: also_has",
-          "title": "Also Has",
+        "freqntly_blurt_out_answers_before_the_teacher____with_having___has_attention_deficits_in_classroom___": {
+          "description": "Canonical property: (freqntly blurt out answers before the teacher',' with having '(has attention deficits in classroom)' ",
+          "title": "Freqntly Blurt Out Answers Before The Teacher    With Having   Has Attention Deficits In Classroom",
           "type": "string"
         }
       },
       "required": [
-        "name",
-        "date_of_birth",
-        "grade",
-        "clinician",
-        "referral_reason",
-        "cooperative_status",
-        "eye_contact",
-        "seat_behavior",
-        "task_avoidance",
-        "thinking_style",
-        "inattention__parental_concerns_",
-        "emotional_reactivity__score_",
-        "executive_functioning",
-        "adhd_diagnosis",
-        "anxiety_disorder_diagnosis",
-        "has_problem_at_home",
-        "has_issue_at_school",
-        "has_impulse_control_problem_at_school",
-        "has_executive_function_dysfunction_at_school",
-        "struggles_with",
-        "meets_criteria_for",
-        "also_has"
+        "has_name_",
+        "was_born_on_",
+        "is_chronologically_",
+        "is_aged_",
+        "is_in_grade_",
+        "has_gender_",
+        "has_a_developmental_history_with_",
+        "received_the_following_diagnoses_",
+        "attends_",
+        "has_",
+        "negative_constraints_for_schema_hardening_agent_to_prevent_hallucinations",
+        "never_possesses__18_years_old_if__is_in_grade__has_a_value_greater_than_or_equal_to__6th_grade___",
+        "never_possesses_a__name__attribute_if___was_born_on___and___has_name___are_missing_",
+        "never_exhibits_",
+        "a_minimum_of_four_to_five_verbal_prompts",
+        "without_prompting_if___had_issues_in___is_not_present_",
+        "never_has_superior_range_performance_if______struggles_to_output_the_work_at_the_same_pace_as_their_peers__missing_",
+        "never_meets_criteria_for__diagnosis__if___patient_____meets_the_diagnostic_criteria_for______diagnosis___is_not_explicitly_defined_",
+        "never_has__escape_behaviors__during_home_work_sessions__without_having__has_behavioral_issues_in_class_room_",
+        "never_possesses_a__",
+        "freqntly_blurt_out_answers_before_the_teacher____with_having___has_attention_deficits_in_classroom___"
       ],
       "title": "AgentModel",
       "type": "object"
     },
-    "ContextModel": {
-      "description": "Discovered Class: Context.\\nNEGATIVE CONSTRAINTS:\\n- A clinical evaluation report should NEVER have a 'date_of_evaluation' that is later than its 'date_of_report'.\\n- This means, for each instance of <CLINICAL_EVALUATION_REPORT>\\n- the 'date_of_evaluation' cannot be after the 'date_of_report'.",
+    "MechanismModel": {
+      "description": "Discovered Class: Mechanism.\\nNEGATIVE CONSTRAINTS:\\n- is_not_intervention",
       "properties": {
-        "date_of_evaluation__with_type_date_": {
-          "description": "Canonical property: date_of_evaluation (with type Date)",
-          "title": "Date Of Evaluation  With Type Date",
-          "type": "string"
-        },
-        "date_of_report__with_type_date_": {
-          "description": "Canonical property: date_of_report (with type Date)",
-          "title": "Date Of Report  With Type Date",
+        "used_in_child_assessment": {
+          "description": "Canonical property: used_in_child_assessment",
+          "title": "Used In Child Assessment",
           "type": "string"
         }
       },
       "required": [
-        "date_of_evaluation__with_type_date_",
-        "date_of_report__with_type_date_"
+        "used_in_child_assessment"
       ],
-      "title": "ContextModel",
+      "title": "MechanismModel",
       "type": "object"
     },
     "ObjectModel": {
-      "description": "Discovered Class: Object.\\nNEGATIVE CONSTRAINTS:\\n- NEVER possess 'Score' --> 'Below Average range' as it is a 'Low Average range' cluster.\\n- NEVER have other than ['Working Memory', 'Processing Speed'] in the SubtestName, given their mutual exclusivity and cluster singularity.",
+      "description": "Discovered Class: Object.\\nNEGATIVE CONSTRAINTS:\\n- NEVER possesses: consistent_stellar_attention_span\\n- NEVER possesses: minimal_daydreaming_during_classes\\n- NEVER possesses: emotional_balance_during_task_transitions",
       "properties": {
-        "subtestname": {
-          "description": "Canonical property: SubtestName",
-          "title": "Subtestname",
+        "included_symptom__persistent_difficulties_with_sustained_attention": {
+          "description": "Canonical property: included_symptom: persistent_difficulties_with_sustained_attention",
+          "title": "Included Symptom  Persistent Difficulties With Sustained Attention",
           "type": "string"
         },
-        "cognitivedomain": {
-          "description": "Canonical property: CognitiveDomain",
-          "title": "Cognitivedomain",
+        "included_symptom__frequent_daydreaming_in_class": {
+          "description": "Canonical property: included_symptom: frequent_daydreaming_in_class",
+          "title": "Included Symptom  Frequent Daydreaming In Class",
           "type": "string"
         },
-        "scoringproperty": {
-          "description": "Canonical property: ScoringProperty",
-          "title": "Scoringproperty",
+        "included_symptom__significant_emotional_reactivity_when_transitioning_between_tasks": {
+          "description": "Canonical property: included_symptom: significant_emotional_reactivity_when_transitioning_between_tasks",
+          "title": "Included Symptom  Significant Emotional Reactivity When Transitioning Between Tasks",
           "type": "string"
         }
       },
       "required": [
-        "subtestname",
-        "cognitivedomain",
-        "scoringproperty"
+        "included_symptom__persistent_difficulties_with_sustained_attention",
+        "included_symptom__frequent_daydreaming_in_class",
+        "included_symptom__significant_emotional_reactivity_when_transitioning_between_tasks"
       ],
       "title": "ObjectModel",
       "type": "object"
     }
   },
   "properties": {
-    "action": {
-      "$ref": "#/$defs/ActionModel",
-      "description": "Dynamically generated schema for Action"
-    },
     "agent": {
       "$ref": "#/$defs/AgentModel",
       "description": "Dynamically generated schema for Agent"
+    },
+    "action": {
+      "$ref": "#/$defs/ActionModel",
+      "description": "Dynamically generated schema for Action"
     },
     "object": {
       "$ref": "#/$defs/ObjectModel",
       "description": "Dynamically generated schema for Object"
     },
-    "context": {
-      "$ref": "#/$defs/ContextModel",
-      "description": "Dynamically generated schema for Context"
+    "mechanism": {
+      "$ref": "#/$defs/MechanismModel",
+      "description": "Dynamically generated schema for Mechanism"
     },
     "reasoning": {
       "description": "Step-by-step reasoning explaining how the source text features were reliably mapped into this blueprint schema.",
@@ -235,10 +223,10 @@
     }
   },
   "required": [
-    "action",
     "agent",
+    "action",
     "object",
-    "context",
+    "mechanism",
     "reasoning"
   ],
   "title": "DiscoveredBlueprint",

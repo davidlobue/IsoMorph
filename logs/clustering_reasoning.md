@@ -103,3 +103,87 @@ The cluster consists of entities with dates as their primary attributes. Both ed
 
 ---
 
+### Cluster 1 (Hardening)
+
+**Reasoning:**
+The given network describes relationships between entities that imply a single community. It revolves around psychological evaluations conducted by professionals in an organizational context.
+
+---
+
+### Cluster 3 (Hardening)
+
+**Reasoning:**
+From the cluster, we can deduce that all entities are associated with a single Person. This community is centered around a clinical evaluation report involving an organization (likely a school or clinic) and describing a person who has certain characteristics, skills, struggles, and conditions. The report also contains recommendations for interventions and supports for this person.
+
+---
+
+### Cluster 2 (Hardening)
+
+**Reasoning:**
+From the provided raw network edges, we can infer that the cluster represents a single individual's profile, as all information within this community is connected to a named individual ('Client Name' linked to '<PERSON>'). The entity type (canonical class name) for these individuals is 'Person'. Here are the universal properties (predicates) and negative constraints (never possessing attributes) based on the available data:
+
+---
+
+### Cluster 4 (Hardening)
+
+**Reasoning:**
+Based on the clustered edges, we can deduce that this is a single algorithmic community cluster related to psychological assessments or educational contexts. The central entity in this cluster, let's call it 'PsychologicalAssessment', connects different assessment tools ('CONNERS_4', 'BASC-3') and specific clinical indicators ('INATTENTION', 'EMOTIONAL_REACTIVITY', etc.).
+
+---
+
+### Cluster 1 (Hardening)
+
+**Reasoning:**
+Upon reviewing the clustered edges in the given network, I've deduced key information about the central entity, a PERSON. Here's their canonical class name and their universal properties (predicates), along with negative constraints (attributes this entity explicitly should NEVER possess).
+
+---
+
+### Cluster 1 (Hardening)
+
+**Semantic Centroid / Role:**
+Non-Verbal Communicator
+
+---
+
+### Cluster 2 (Hardening)
+
+**Semantic Centroid / Role:**
+Gestures
+
+---
+
+### Cluster 4 (Hardening)
+
+**Reasoning:**
+Based on the edges within this cluster, all nodes represent different assessment procedures, tools or methods used in child evaluation. The common predicate (property) they share is that they are all 'used' for Child Assessment. The defining attribute for this community is the 'Child Assessment Procedure'. It's important to note any potential negations could be constraints like 'not an Intervention', as these nodes represent evaluations, not treatments.
+
+---
+
+### Cluster 2 (Hardening)
+
+**Reasoning:**
+Based on the provided network edges in the cluster, we can infer that all nodes share a common purpose or theme, which revolves around educational evaluations and support.
+
+---
+
+### Cluster 3 (Hardening)
+
+**Reasoning:**
+Based on the commonalities among the referring reasons, we can deduce that this cluster is about attentional and behavioral issues in a classroom setting. All three reasons point towards a shared entity characterized by deficits in attention, perseverance, and emotional regulation.
+
+---
+
+### Cluster 1 (Hardening)
+
+**Reasoning:**
+Given the context, there's a clear single algorithmic community cluster centered around a patient. The raw network edges indicate a common subject for whom various assessments and evaluations have been conducted. Therefore, we can define this entity as a 'Patient'.
+
+---
+
+### Cluster 5 (Hardening)
+
+**Reasoning:**
+The cluster contains only entities of type recommendations, which are given for an individual under specific plans like IEP or 504 Plan. The common theme seems to be educational or psychological support services.
+
+---
+

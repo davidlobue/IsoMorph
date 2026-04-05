@@ -105,7 +105,7 @@ class Orchestrator:
             cluster_logic = await self.hardener.canonicalize_cluster(community, all_triples)
             
             with open("logs/clustering_reasoning.md", "a", encoding="utf-8") as f:
-                f.write(f"### Cluster {i+1} (Hardening)\n\n**Reasoning:**\n{cluster_logic.reasoning}\n\n---\n\n")
+                f.write(f"### Cluster {i+1} (Hardening)\n\n**Semantic Centroid / Role:**\n{cluster_logic.hypernym}\n\n---\n\n")
                 
             if self.verbose:
                 print(f"\n[VERBOSE] Clustered Discovery Output:\n{cluster_logic.model_dump_json(indent=2)}")
@@ -141,7 +141,8 @@ class Orchestrator:
             k_core_pruning=self.k_core_pruning,
             neighborhood_isomorphism=self.neighborhood_isomorphism,
             auto_resolution_tuning=self.auto_resolution_tuning,
-            verbose=self.verbose
+            verbose=self.verbose,
+            graph_output_dir="graph_progressions"
         )
         print(f"[TIMER] Louvain graph isolation mapped in {time.time() - start_time:.2f}s")
         print(f"[+] Detected {len(communities)} distinct logic clusters.")
@@ -157,6 +158,7 @@ class Orchestrator:
             clusters = await self.generalizer.refine_blueprint(
                 clusters, 
                 graph=louvain_graph,
+                all_triples=all_triples,
                 do_latent=self.generalize_latent_space,
                 do_taxonomic=self.generalize_taxonomic_lifting,
                 do_structural=self.generalize_structural_roles,

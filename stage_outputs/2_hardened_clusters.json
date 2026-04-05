@@ -1,88 +1,106 @@
 [
 {
-  "reasoning": "[Seeded Meta] The class 'Intermediate-Bridge-1' represents timepoints or actions via its predicate relationships ('DateOfEvaluation -> DateTime', 'DateOfReport -> DateTime'), making it an 'Action' in the Golden Schema.",
-  "class_name": "Action",
-  "nodes": [
-    "<DATE>",
-    "October 14, 2025",
-    "October 28, 2025"
-  ],
-  "canonical_predicates": [
-    "DateOfEvaluation -> DateTime",
-    "DateOfReport -> DateTime"
-  ],
-  "negative_constraints": [
-    "NEVER - (Not a TemporalEvent: HasLocation)",
-    "NEVER - (Not a TemporalEvent: HasPhysicalAddress)"
-  ]
-},
-{
-  "reasoning": "[Seeded Meta] The 'High-Degree-Hub-2' class primarily represents entities of type '<PERSON>', making it an 'Agent'.",
+  "reasoning": "[Seeded Meta] The 'Disconnected-Module-1' class predominantly revolves around information about a single entity, identified as '<PATIENT>', which can be understood as an individual within the context of education and healthcare. The predicates describe attributes (has name, is aged, etc.) and relationships (is chronologically followed by, attends, has) that further define this individual. Additionally, the negative constraints ensure the consistency and accuracy of these characteristics. Therefore, it fits best under the 'Agent' category in the provided Golden Schema.",
   "class_name": "Agent",
   "nodes": [
-    "<PERSON>",
-    "PersonName"
+    "<PATIENT>"
   ],
   "canonical_predicates": [
-    "Name",
-    "Date of Birth",
-    "Grade",
-    "Clinician",
-    "Referral Reason",
-    "Cooperative Status",
-    "Eye Contact",
-    "Seat Behavior",
-    "Task Avoidance",
-    "Thinking Style",
-    "Inattention (Parental Concerns)",
-    "Emotional Reactivity (Score)",
-    "Executive Functioning",
-    "ADHD Diagnosis",
-    "Anxiety Disorder Diagnosis",
-    "has_problem_at_home",
-    "has_issue_at_school",
-    "has_impulse_control_problem_at_school",
-    "has_executive_function_dysfunction_at_school",
-    "struggles_with",
-    "meets_criteria_for",
-    "also_has"
+    "(has name)",
+    "(was born on)",
+    "(is chronologically)",
+    "(is aged)",
+    "(is in grade)",
+    "(has gender)",
+    "(has a developmental history with)",
+    "(received the following diagnoses)",
+    "(attends)",
+    "(has)",
+    "negative_constraints_for_schema_hardening_agent_to_prevent_hallucinations",
+    "NEVER possesses <18 years old if 'is in grade' has a value greater than or equal to '6th Grade'. ",
+    "NEVER possesses a 'name' attribute if '(was born on)' and '(has name)' are missing.",
+    "NEVER exhibits ",
+    "(has)",
+    "a minimum of four to five verbal prompts",
+    " without prompting if '(had issues in)' is not present ",
+    "NEVER has Superior range performance if ',' (struggles to output the work at the same pace as their peers' missing.",
+    "NEVER meets criteria for <Diagnosis> if '<PATIENT> --(meets the diagnostic criteria for)--> <Diagnosis>' is not explicitly defined.",
+    "NEVER has 'escape behaviors' during home work sessions, without having (has behavioral issues in class room)",
+    "NEVER possesses a '",
+    "(freqntly blurt out answers before the teacher',' with having '(has attention deficits in classroom)' "
   ],
   "negative_constraints": [
-    "<PERSON> --(is_dead)-->",
-    "<PERSON> --(has_positive_thinking)-->"
+    "SHOULD NOT have an age less than 0 or greater than 18.",
+    "MAY NOT be referred by a system that is not defined as an [ORGANIZATION] or [PERSON].",
+    "MUST be present with at least one of the assessments like (has done assessment)"
   ]
 },
 {
-  "reasoning": "[Seeded Meta] The 'Disconnected-Module-3' class primarily represents properties and relationships of test modules, making it an 'Object' in the Golden Schema. It doesn't represent agents performing actions (Agent), changes or results (Outcome), methods or processes (Mechanism), environments or situations (Context), or specific actions taken (Action).",
+  "reasoning": "[Seeded Meta] The 'Intermediate-Bridge-2' class represents actions taken, specifically in this case, generating an evaluation report. The constraints specified, such as 'NEVER possess a title with profanity.', 'NEVER contain hate speech...', etc., suggest parameters and rules that guide the action of creating the report. Therefore, it best fits under the 'Action' category in the Golden Schema.",
+  "class_name": "Action",
+  "nodes": [
+    "%S",
+    "Evaluation Report"
+  ],
+  "canonical_predicates": [
+    "title",
+    "purpose",
+    "content",
+    "target_audience",
+    "recommendations",
+    "involved_parties"
+  ],
+  "negative_constraints": [
+    "NEVER possess a title with profanity.",
+    "NEVER contain hate speech directed towards any involved parties.",
+    "NEVER provide recommendations that are contradictory or misleading.",
+    "NEVER target an age group under 5 years old (as the context is school performance and family functioning)."
+  ]
+},
+{
+  "reasoning": "[Seeded Meta] 'Disconnected-Module-3' represents a set of symptoms that can afflict an object, in this case, a student. Therefore, it is mapped to the 'Object' category.",
   "class_name": "Object",
   "nodes": [
-    "__properties__:",
-    "[Score] --> [Range]"
+    "Reason-for-referral"
   ],
   "canonical_predicates": [
-    "SubtestName",
-    "CognitiveDomain",
-    "ScoringProperty"
+    "included_symptom: persistent_difficulties_with_sustained_attention",
+    "included_symptom: frequent_daydreaming_in_class",
+    "included_symptom: significant_emotional_reactivity_when_transitioning_between_tasks"
   ],
   "negative_constraints": [
-    "NEVER possess 'Score' --> 'Below Average range' as it is a 'Low Average range' cluster.",
-    "NEVER have other than ['Working Memory', 'Processing Speed'] in the SubtestName, given their mutual exclusivity and cluster singularity."
+    "NEVER possesses: consistent_stellar_attention_span",
+    "NEVER possesses: minimal_daydreaming_during_classes",
+    "NEVER possesses: emotional_balance_during_task_transitions"
   ]
 },
 {
-  "reasoning": "[Seeded Meta] The 'Disconnected-Module-4' class, specifically its negative constraints, defines rules governing the temporal relationships between data points ('date_of_evaluation' and 'date_of_report') associated with a clinical evaluation report. This fits best under 'Context', as it describes the circumstances or settings in which medical evaluations occur.",
-  "class_name": "Context",
-  "nodes": [
-    "<CLINICAL_EVALUATION_REPORT> Nodes"
-  ],
+  "reasoning": "[Seeded Meta] The class 'Disconnected-Module-4' represents mechanisms or processes that are used in specific assessments but does not directly act (it's 'not intervention'), suggesting it falls under the 'Mechanism' category in the Golden Schema as it describes a way of doing something.",
+  "class_name": "Mechanism",
+  "nodes": [],
   "canonical_predicates": [
-    "date_of_evaluation (with type Date)",
-    "date_of_report (with type Date)"
+    "used_in_child_assessment"
   ],
   "negative_constraints": [
-    "A clinical evaluation report should NEVER have a 'date_of_evaluation' that is later than its 'date_of_report'.",
-    "This means, for each instance of <CLINICAL_EVALUATION_REPORT>",
-    "the 'date_of_evaluation' cannot be after the 'date_of_report'."
+    "is_not_intervention"
+  ]
+},
+{
+  "reasoning": "[Seeded Meta] The 'Disconnected-Module-5' class represents actions taken, specifically recommendations for plans. It fits the 'Action' category in the Golden Schema.",
+  "class_name": "Action",
+  "nodes": [
+    "[SUMMARY AND RECOMMENDATIONS]",
+    "[Individualized Education Program (IEP) or 504 Plan]",
+    "[Cognitive Behavioral Therapy (CBT)]"
+  ],
+  "canonical_predicates": [
+    "recommended_for_plan: IndividualizedEducationProgram|504Plan Enum",
+    "So, `504Plan` and `IndividualizedEducationProgram` are possible values for a `plans` attribute."
+  ],
+  "negative_constraints": [
+    "DOES NOT recommend FOR medication_or_fine_repayment Plan types",
+    "cannot_recommend_non_educational_services",
+    "So, it's explicitly defined that these entities cannot have any attributes or relations related to medication recommendation or non-education services like financial repayment."
   ]
 }
 ]

@@ -208,3 +208,129 @@ The 'High-Degree-Hub-2' class primarily represents entities of type '<PERSON>', 
 
 ---
 
+### Class `Intermediate-Bridge-1` (Structural Roles)
+
+**Reasoning:**
+[Structural Motifs] Graph Math Assignment: Cluster Mean Centrality = 0.0152 (Global Mean = 0.0176, Std = 0.0326)
+
+---
+
+### Class `High-Degree-Hub-2` (Structural Roles)
+
+**Reasoning:**
+[Structural Motifs] Graph Math Assignment: Cluster Mean Centrality = 0.1023 (Global Mean = 0.0176, Std = 0.0326)
+
+---
+
+### Class `High-Degree-Hub-3` (Structural Roles)
+
+**Reasoning:**
+[Structural Motifs] Graph Math Assignment: Cluster Mean Centrality = 0.0682 (Global Mean = 0.0176, Std = 0.0326)
+
+---
+
+### Class `Intermediate-Bridge-4` (Structural Roles)
+
+**Reasoning:**
+[Structural Motifs] Graph Math Assignment: Cluster Mean Centrality = 0.0170 (Global Mean = 0.0176, Std = 0.0326)
+
+---
+
+### Class `Object` (Seeded Meta-Schemas)
+
+**Reasoning:**
+The instance represents a tangible item, specifically a 'comprehensive psychological evaluation report'.
+
+---
+
+### Class `Mechanism` (Seeded Meta-Schemas)
+
+**Reasoning:**
+The 'High-Degree-Hub-2' class seems to revolve around describing a specific set of conditions and behaviors related to an individual's psychological assessment. It does not represent an 'Agent' (the individual), nor an 'Action', or the direct 'Outcome'. Instead, it outlines and mechanizes processes involved in evaluating this individual's abilities, constraints, and behaviors. This makes 'Mechanism' the most fitting bucket from the Golden Schema.
+
+---
+
+### Class `Action` (Seeded Meta-Schemas)
+
+**Reasoning:**
+The 'Intermediate-Bridge-4' class represents an action, specifically the administration of psychological assessments and the interpretation of results to identify clinically significant elevations in certain conditions. It's not an agent (performing the action), outcome (result of the action), or context/object involved in the action.
+
+---
+
+### Class `Action` (Seeded Meta-Schemas)
+
+**Reasoning:**
+The discovered class 'Disconnected-Module-1' describes actions and events happening to or involving the PERSON, such as being referred for evaluation, exhibiting behaviors, displaying executive functioning deficits, demonstrating cognitive abilities, having diagnoses determined, and experiencing academic and interpersonal difficulties. These all fall under the category of 'Action' in the Golden Schema.
+
+---
+
+### Class `Unmapped-Entity-1` (Structural Roles)
+
+**Type-Cast:**
+[Structural Type-Cast] Graph Math Assignment: Entity | <structural_role>High Out-Degree Entity / Subject Node</structural_role>
+
+---
+
+### Class `Unmapped-Attribute-2` (Structural Roles)
+
+**Type-Cast:**
+[Structural Type-Cast] Graph Math Assignment: Attribute | <structural_role>Terminal Attribute / Value Node (Zero Out-Degree)</structural_role>
+
+---
+
+### Class `Agent` (Seeded Meta-Schemas)
+
+**Hypernym:**
+Entity
+
+---
+
+### Class `Action` (Seeded Meta-Schemas)
+
+**Hypernym:**
+[Structural Type-Cast] Graph Math Assignment: Action | <structural_role>Terminal Action / Value Edge (Zero Out-Degree)</structural_role>
+
+---
+
+### Class `Intermediate-Bridge-2` (Structural Roles)
+
+**Reasoning:**
+[Structural Motifs] Graph Math Assignment: Cluster Mean Centrality = 0.0308 (Global Mean = 0.0247, Std = 0.0569)
+
+---
+
+### Class `Action` (Seeded Meta-Schemas)
+
+**Reasoning:**
+The 'Disconnected-Module-5' class represents actions taken, specifically recommendations for plans. It fits the 'Action' category in the Golden Schema.
+
+---
+
+### Class `Action` (Seeded Meta-Schemas)
+
+**Reasoning:**
+The 'Intermediate-Bridge-2' class represents actions taken, specifically in this case, generating an evaluation report. The constraints specified, such as 'NEVER possess a title with profanity.', 'NEVER contain hate speech...', etc., suggest parameters and rules that guide the action of creating the report. Therefore, it best fits under the 'Action' category in the Golden Schema.
+
+---
+
+### Class `Agent` (Seeded Meta-Schemas)
+
+**Reasoning:**
+The 'Disconnected-Module-1' class predominantly revolves around information about a single entity, identified as '<PATIENT>', which can be understood as an individual within the context of education and healthcare. The predicates describe attributes (has name, is aged, etc.) and relationships (is chronologically followed by, attends, has) that further define this individual. Additionally, the negative constraints ensure the consistency and accuracy of these characteristics. Therefore, it fits best under the 'Agent' category in the provided Golden Schema.
+
+---
+
+### Class `Object` (Seeded Meta-Schemas)
+
+**Reasoning:**
+'Disconnected-Module-3' represents a set of symptoms that can afflict an object, in this case, a student. Therefore, it is mapped to the 'Object' category.
+
+---
+
+### Class `Mechanism` (Seeded Meta-Schemas)
+
+**Reasoning:**
+The class 'Disconnected-Module-4' represents mechanisms or processes that are used in specific assessments but does not directly act (it's 'not intervention'), suggesting it falls under the 'Mechanism' category in the Golden Schema as it describes a way of doing something.
+
+---
+

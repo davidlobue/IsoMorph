@@ -63,7 +63,7 @@ class HardenerEngine:
             elif safe_class_name[0].isdigit():
                 safe_class_name = "Class" + safe_class_name
                 
-            doc_string = f"Discovered Class: {cluster.class_name}.\\nNEGATIVE CONSTRAINTS:\\n" + "\\n".join(f"- {nc}" for nc in cluster.negative_constraints)
+            doc_string = f"Discovered Class: {cluster.class_name}.\\nSemantic Centroid / Role: {cluster.hypernym}\\nNEGATIVE CONSTRAINTS:\\n" + "\\n".join(f"- {nc}" for nc in cluster.negative_constraints)
             
             dynamic_model = create_model(f"{safe_class_name}Model", **class_fields)
             dynamic_model.__doc__ = doc_string
@@ -71,7 +71,7 @@ class HardenerEngine:
             field_key = safe_class_name.lower()
             fields[field_key] = (dynamic_model, Field(..., description=f"Dynamically generated schema for {cluster.class_name}"))
 
-        fields['reasoning'] = (str, Field(..., description="Step-by-step reasoning explaining how the source text features were reliably mapped into this blueprint schema."))
+        fields['domain_summary'] = (str, Field(..., description="High-level summary of how the source text features were reliably mapped into this blueprint schema."))
         RootSchema = create_model("DiscoveredBlueprint", **fields)
         return RootSchema
 
@@ -95,7 +95,7 @@ class HardenerEngine:
                 
             lines.append(f"class {safe_class_name}Model(BaseModel):")
             
-            doc_string = f"Discovered Class: {cluster.class_name}.\\n    NEGATIVE CONSTRAINTS:\\n" + "\\n".join(f"    - {nc}" for nc in cluster.negative_constraints)
+            doc_string = f"Discovered Class: {cluster.class_name}.\\n    Semantic Centroid / Role: {cluster.hypernym}\\n    NEGATIVE CONSTRAINTS:\\n" + "\\n".join(f"    - {nc}" for nc in cluster.negative_constraints)
             lines.append(f'    """\\n    {doc_string}\\n    """')
             
             if not cluster.canonical_predicates:
@@ -111,7 +111,7 @@ class HardenerEngine:
             lines.append("")
             
         lines.append("class DiscoveredBlueprint(BaseModel):")
-        lines.append('    reasoning: str = Field(..., description="Step-by-step reasoning explaining how the source text features were reliably mapped into this blueprint schema.")')
+        lines.append('    domain_summary: str = Field(..., description="High-level summary of how the source text features were reliably mapped into this blueprint schema.")')
         if not clusters:
             lines.append("    pass")
         else:

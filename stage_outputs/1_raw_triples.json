@@ -1,222 +1,277 @@
 [
 {
-  "subject": "<DATE>",
-  "predicate": "Date Of Evaluation",
-  "object": "October 14, 2025"
-},
-{
-  "subject": "<DATE>",
-  "predicate": "Date Of Report",
-  "object": "October 28, 2025"
+  "subject": "Comprehensive Psychological Evaluation Report",
+  "predicate": "is a type of",
+  "object": "Psychological Evaluation Report"
 },
 {
   "subject": "<PERSON>",
-  "predicate": "Name",
-  "object": "Client Name"
+  "predicate": "has name",
+  "object": "Patient Name"
 },
 {
   "subject": "<PERSON>",
-  "predicate": "Date of Birth",
-  "object": "May 12, 2017 (Age: 8 years, 5 months)"
+  "predicate": "was born on",
+  "object": "March 12, 2018"
 },
 {
   "subject": "<PERSON>",
-  "predicate": "Grade",
+  "predicate": "is chronologically",
+  "object": "8 years, 1 month old"
+},
+{
+  "subject": "<PERSON>",
+  "predicate": "has gender",
+  "object": "Female"
+},
+{
+  "subject": "<PERSON>",
+  "predicate": "is in grade",
+  "object": "2nd Grade"
+},
+{
+  "subject": "%S",
+  "predicate": "wildcard",
+  "object": "Evaluation Report"
+},
+{
+  "subject": "<PERSON>, PsyD",
+  "predicate": "is a",
+  "object": "Licensed Clinical Psychologist"
+},
+{
+  "subject": "<ORGANIZATION>",
+  "predicate": "conducted the evaluation of",
+  "object": "<PERSON>"
+},
+{
+  "subject": "<PERSON>, MD (Pediatrics)",
+  "predicate": "referred",
+  "object": "<PERSON> for an evaluation"
+},
+{
+  "subject": "Symptoms have been present",
+  "predicate": "for approximately",
+  "object": "two years"
+},
+{
+  "subject": "%S",
+  "predicate": "wildcard",
+  "object": "impact school performance and family functioning"
+},
+{
+  "subject": "<PERSON>",
+  "predicate": "was referred for a comprehensive psychological evaluation due to concerns",
+  "object": "from parents and teachers regarding difficulties with attention, emotional regulation, social interactions, and academic engagement."
+},
+{
+  "subject": "%S",
+  "predicate": "wildcard",
+  "object": "Diagnostic clarification and recommendations for support."
+},
+{
+  "subject": "<PERSON>",
+  "predicate": "has a developmental history with",
+  "object": "Pregnancy, delivery, and early developmental milestones were reported as typical and within normal limits."
+},
+{
+  "subject": "<ORGANIZATION>",
+  "predicate": "conducted the following assessments",
+  "object": "Clinical interview with parents (approximately 2 hours), Clinical interview with <PERSON> (40 minutes), Teacher telephone interview and standardized rating scales, Wechsler Intelligence Scale for Children, Fifth Edition (WISC-V), Conners 4th Edition – Parent and Teacher Forms, Behavior Assessment System for Children, Third Edition (BASC-3) – Parent, Teacher, and Self-Report, Test of Variables of Attention (TOVA), Children’s Depression Inventory, Second Edition (CDI-2), Screen for Child Anxiety Related Emotional Disorders (SCARED) – Parent and Child versions, Review of available school and pediatric records"
+},
+{
+  "subject": "<PERSON>",
+  "predicate": "received the following diagnoses",
+  "object": "Attention-Deficit/Hyperactivity Disorder, Combined Presentation (F90.2), Separation Anxiety Disorder (F93.0)"
+},
+{
+  "subject": "<PERSON>",
+  "predicate": "is a",
+  "object": "bright and engaging 8-year-old girl"
+},
+{
+  "subject": "CLINICAL EVALUATION REPORT",
+  "predicate": "is about",
+  "object": "<PERSON>"
+},
+{
+  "subject": "<PERSON>",
+  "predicate": "was born on",
+  "object": "May 12, 2017"
+},
+{
+  "subject": "<PERSON>",
+  "predicate": "is in",
   "object": "3rd Grade"
 },
 {
   "subject": "<PERSON>",
-  "predicate": "Clinician",
-  "object": "Psy.D., <PERSON>"
+  "predicate": "was referred by",
+  "object": "their parents"
+},
+{
+  "subject": "REASON FOR REFERRAL",
+  "predicate": "includes",
+  "object": "persistent difficulties with sustained attention"
+},
+{
+  "subject": "REASON FOR REFERRAL",
+  "predicate": "includes",
+  "object": "frequent 'daydreaming' in class"
+},
+{
+  "subject": "REASON FOR REFERRAL",
+  "predicate": "includes",
+  "object": "significant emotional reactivity when transitioning between preferred and non-preferred tasks"
 },
 {
   "subject": "<PERSON>",
-  "predicate": "Referral Reason",
-  "object": "Persistent difficulties with sustained attention, frequent daydreaming in class, significant emotional reactivity when transitioning between preferred and non-preferred tasks"
+  "predicate": "attends",
+  "object": "<ORGANIZATION> School"
 },
 {
-  "subject": "<ORGANIZATION> SCHOOL",
-  "predicate": "Teacher Concern",
-  "object": "Stuggles to complete independent work, struggle with social cues during recess"
+  "subject": "ASSESSMENT PROCEDURES",
+  "predicate": "used",
+  "object": "Clinical Interview: With parents and <PERSON>"
+},
+{
+  "subject": "ASSESSMENT PROCEDURES",
+  "predicate": "used",
+  "object": "Conners 4: Parent and Teacher Rating Scales"
+},
+{
+  "subject": "ASSESSMENT PROCEDURES",
+  "predicate": "used",
+  "object": "Behavior Assessment System for Children (BASC-3): Parent and Teacher Forms"
+},
+{
+  "subject": "ASSESSMENT PROCEDURES",
+  "predicate": "used",
+  "object": "Wechsler Intelligence Scale for Children (WISC-V): Selected subtests"
+},
+{
+  "subject": "ASSESSMENT PROCEDURES",
+  "predicate": "used",
+  "object": "Review of Records: Previous report cards and pediatrician notes"
 },
 {
   "subject": "<PERSON>",
-  "predicate": "Cooperative Status",
-  "object": "Cooperative and engaging child"
+  "predicate": "presented as",
+  "object": "a cooperative and engaging child"
 },
 {
   "subject": "<PERSON>",
-  "predicate": "Eye Contact",
-  "object": "Age-appropriate eye contact"
-},
-{
-  "subject": "<PERSON>",
-  "predicate": "Seat Behavior",
-  "object": "Frequently shifts in their seat"
-},
-{
-  "subject": "<PERSON>",
-  "predicate": "Task Avoidance",
-  "object": "Asking for water breaks, changing subject"
-},
-{
-  "subject": "<PERSON>",
-  "predicate": "Thinking Style",
-  "object": "All-or-nothing thinking"
-},
-{
-  "subject": "WISC-V (Verbal Reasoning)",
-  "predicate": "Score",
+  "predicate": "had",
   "object": "High Average verbal reasoning skills"
 },
 {
-  "subject": "WISC-V (Working Memory)",
-  "predicate": "Score",
-  "object": "Low Average range"
-},
-{
-  "subject": "WISC-V (Processing Speed)",
-  "predicate": "Score",
-  "object": "Low Average range"
+  "subject": "<PERSON>",
+  "predicate": "had",
+  "object": "Low Average Working Memory"
 },
 {
   "subject": "<PERSON>",
-  "predicate": "Inattention (Parental Concerns)",
-  "object": "Loses track of instructions, requires frequent redirection."
+  "predicate": "had issues in",
+  "object": "Inattention"
 },
 {
   "subject": "<PERSON>",
-  "predicate": "Emotional Reactivity (Score)",
-  "object": "Clinically significant elevations"
+  "predicate": "experienced",
+  "object": "Emotional Reactivity"
 },
 {
   "subject": "<PERSON>",
-  "predicate": "Executive Functioning",
-  "object": "Deficits in planning, organizing, and initiating tasks"
+  "predicate": "had deficits in",
+  "object": "Executive Functioning"
 },
 {
   "subject": "<PERSON>",
-  "predicate": "ADHD Diagnosis",
+  "predicate": "meets the diagnostic criteria for",
   "object": "Attention-Deficit/Hyperactivity Disorder, Combined Presentation (F90.2)"
 },
 {
   "subject": "<PERSON>",
-  "predicate": "Anxiety Disorder Diagnosis",
-  "object": "Generalized Anxiety Disorder (F41.1"
+  "predicate": "meets the diagnostic criteria for",
+  "object": "Generalized Anxiety Disorder (F41.1)"
 },
 {
-  "subject": "<CLINICAL_EVALUATION_REPORT>",
-  "predicate": "date_of_evaluation",
-  "object": "November 05, 2025"
+  "subject": "SUMMARY AND RECOMMENDATIONS",
+  "predicate": "recommends",
+  "object": "Individualized Education Program (IEP) or 504 Plan"
 },
 {
-  "subject": "<CLINICAL_EVALUATION_REPORT>",
-  "predicate": "date_of_report",
-  "object": "November 19, 2025"
+  "subject": "SUMMARY AND RECOMMENDATIONS",
+  "predicate": "recommends",
+  "object": "Cognitive Behavioral Therapy (CBT)"
 },
 {
-  "subject": "client_name",
-  "predicate": "is_a",
-  "object": "<PERSON>"
-},
-{
-  "subject": "client_dob",
-  "predicate": "is_on",
-  "object": "August 22, 2016"
-},
-{
-  "subject": "client_age",
-  "predicate": "is",
-  "object": "9 years, 2 months"
-},
-{
-  "subject": "client_grade",
-  "predicate": "is_in",
-  "object": "4th Grade"
-},
-{
-  "subject": "clinician_name",
-  "predicate": "is_a",
-  "object": "<PERSON>, Ph.D."
-},
-{
-  "subject": "reason_for_referral",
-  "predicate": "includes_info_about",
-  "object": "increasing academic friction and interpersonal difficulties"
+  "subject": "<CLINICIAN>",
+  "predicate": "is a",
+  "object": "Clinical Psychologist"
 },
 {
   "subject": "<PERSON>",
-  "predicate": "has_problem_at_home",
-  "object": "significant 'meltdowns' during the evening routine"
+  "predicate": "was referred to",
+  "object": "<ORGANIZATION>"
+},
+{
+  "subject": "\"<PERSON>\"’s teacher at <ORGANIZATION> Academy",
+  "predicate": "describes them as",
+  "object": "\"a 'bright but inconsistent' student\""
 },
 {
   "subject": "<PERSON>",
-  "predicate": "has_issue_at_school",
-  "object": "behavior disrupting classroom flow with off-topic comments or refusal to comply with instructions"
-},
-{
-  "subject": "home_morning_problem",
-  "predicate": "is",
-  "object": "unable to complete a three-step routine without prompts"
-},
-{
-  "subject": "home_task_problem",
-  "predicate": "shows",
-  "object": "escape behaviors to stall homework"
-},
-{
-  "subject": "home_emotional_problem",
-  "predicate": "has",
-  "object": "intense emotional responses to small triggers"
+  "predicate": "is able to complete a three-step routine without",
+  "object": "\"a minimum of four to five verbal prompts\""
 },
 {
   "subject": "<PERSON>",
-  "predicate": "has_impulse_control_problem_at_school",
-  "object": "frequent blurting out answers and touching peers"
+  "predicate": "exhibits \"escape behaviors\" during",
+  "object": "\"homework sessions\""
 },
 {
   "subject": "<PERSON>",
-  "predicate": "has_executive_function_dysfunction_at_school",
-  "object": "chronically disorganized desk and missing supplies"
+  "predicate": "has small triggers that result in",
+  "object": "\"Level 10 emotional responses\""
 },
 {
   "subject": "<PERSON>",
-  "predicate": "struggles_with",
-  "object": "social_reciprocity_and_game_rules_understanding_during_recess"
+  "predicate": "frequently blurt out answers before the teacher has finished the question during",
+  "object": "\"carpet time\""
 },
 {
-  "subject": "cognitive_testing_WISC-V_result_in_fluid_reasoning",
-  "predicate": "shows",
-  "object": "superior range performance"
-},
-{
-  "subject": "cognitive_testing_WISC-V_result_in_processing_speed",
-  "predicate": "falls_into",
-  "object": "borderline range"
+  "subject": "<PERSON>'s desk",
+  "predicate": "is described as",
+  "object": "\"chronically disorganized\""
 },
 {
   "subject": "<PERSON>",
-  "predicate": "meets_criteria_for",
-  "object": "ADHD, Combined Presentation"
+  "predicate": "demonstrated Superior range performance in",
+  "object": "Fluid Reasoning"
 },
 {
   "subject": "<PERSON>",
-  "predicate": "also_has",
-  "object": "Oppositional Defiant Disorder"
+  "predicate": "struggles to output the work at the same pace as their peers, which fuels their frustration and subsequent behavioral outbursts during",
+  "object": "the classroom"
 },
 {
-  "subject": "recommended_educational_strategy",
-  "predicate": "is_the",
-  "object": "'First/Then' Principle for tasks"
+  "subject": "<PERSON>",
+  "predicate": "meets criteria for",
+  "object": "Attention-Deficit/Hyperactivity Disorder, Combined Presentation (F90.2)"
 },
 {
-  "subject": "recommended_home_intervention",
-  "predicate": "includes",
-  "object": "Collaborative & Proactive Solutions model and minimizing visual clutter in study area"
+  "subject": "<PERSON>",
+  "predicate": "has a frequent pattern of irritability and defiance toward authority figures largely triggered by transitions and cognitive fatigue, which characterizes their",
+  "object": "Oppositional Defiant Disorder (F91.3)"
 },
 {
-  "subject": "therapeutic_plan",
-  "predicate": "encompasses",
-  "object": "Social Skills Group, Child-Parent Psychotherapy to repair bond"
+  "subject": "The \"First/Then\" Principle",
+  "predicate": "is used to reduce the perceived 'infinity' of the non-preferred task with",
+  "object": "visual boards"
+},
+{
+  "subject": "<PERSON>",
+  "predicate": "is allowed to perform 'heavy work' to provide proprioceptive input when they appear hyperactive during",
+  "object": "heavy work breaks"
 }
 ]

@@ -47,12 +47,18 @@ orchestrator = Orchestrator(
     generalize_seeded_schemas=True
 )
 
-try:
-    final_schema = await orchestrator.run_pipeline(docs)
-except Exception as e:
-    print(f"Pipeline Error: {e}")
-    print("Is your LLM connection running locally, or did you export LLM_BASE_URL?")
-    final_schema = None
+import asyncio
+
+async def main():
+    try:
+        final_schemas = await orchestrator.run_pipeline(docs)
+        return final_schemas[0] if final_schemas else None
+    except Exception as e:
+        print(f"Pipeline Error: {e}")
+        print("Is your LLM connection running locally, or did you export LLM_BASE_URL?")
+        return None
+
+final_schema = asyncio.run(main())
 
 
 if final_schema:
