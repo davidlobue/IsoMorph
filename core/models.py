@@ -15,9 +15,11 @@ class RawTriple(BaseModel):
     object: str = Field(description="The target entity node or literal value.")
 
 class TripleExtractionResult(BaseModel):
+    reasoning: str = Field(description="Step-by-step reasoning explaining how you decided on these exact triples.")
     triples: List[RawTriple] = Field(default_factory=list, description="List of extracted open triples.")
 
 class DiscoveryCluster(BaseModel):
+    reasoning: str = Field(description="Step-by-step reasoning explaining the logical categorization of this cluster.")
     class_name: str = Field(description="The inferred name for this clustered class (e.g. 'Company', 'Person').")
     nodes: List[str] = Field(description="Entity nodes that belong to this cluster.")
     canonical_predicates: List[str] = Field(description="The canonical structural properties (edges) this class exhibits.")

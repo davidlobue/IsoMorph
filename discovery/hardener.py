@@ -1,6 +1,7 @@
 import instructor
 from typing import List, Dict, Type
 from pydantic import create_model, BaseModel, Field
+import re
 from core.models import RawTriple, DiscoveryCluster
 from core.config import LLMConfig
 from core.prompts import Prompts
@@ -48,11 +49,20 @@ class HardenerEngine:
             class_fields = {}
             for predicate in cluster.canonical_predicates:
                 # Sanitized pydantic string rules
-                safe_predicate = predicate.replace(" ", "_").lower()
+                safe_predicate = re.sub(r'[^a-zA-Z0-9_]', '_', predicate.lower()).lstrip("_")
+                if not safe_predicate:
+                    safe_predicate = "unknown_property"
+                elif safe_predicate[0].isdigit():
+                    safe_predicate = "f_" + safe_predicate
                 class_fields[safe_predicate] = (str, Field(..., description=f"Canonical property: {predicate}"))
             
             # Map negative constraints strictly onto the schema logic documentation block
             safe_class_name = "".join(x for x in cluster.class_name.title() if x.isalnum())
+            if not safe_class_name:
+                safe_class_name = "UnknownBlueprintClass"
+            elif safe_class_name[0].isdigit():
+                safe_class_name = "Class" + safe_class_name
+                
             doc_string = f"Discovered Class: {cluster.class_name}.\\nNEGATIVE CONSTRAINTS:\\n" + "\\n".join(f"- {nc}" for nc in cluster.negative_constraints)
             
             dynamic_model = create_model(f"{safe_class_name}Model", **class_fields)
@@ -61,5 +71,64 @@ class HardenerEngine:
             field_key = safe_class_name.lower()
             fields[field_key] = (dynamic_model, Field(..., description=f"Dynamically generated schema for {cluster.class_name}"))
 
+        fields['reasoning'] = (str, Field(..., description="Step-by-step reasoning explaining how the source text features were reliably mapped into this blueprint schema."))
         RootSchema = create_model("DiscoveredBlueprint", **fields)
         return RootSchema
+
+    def export_schema_to_file(self, clusters: List[DiscoveryCluster], output_dir: str = "generated_schemas", human_readable: bool = True):
+        import os
+        os.makedirs(output_dir, exist_ok=True)
+        
+        lines = [
+            "# AUTO-GENERATED PYDANTIC KNOWLEDGE ONTOLOGY",
+            "from pydantic import BaseModel, Field",
+            "from typing import Optional, List",
+            ""
+        ]
+        
+        for cluster in clusters:
+            safe_class_name = "".join(x for x in cluster.class_name.title() if x.isalnum())
+            if not safe_class_name:
+                safe_class_name = "UnknownBlueprintClass"
+            elif safe_class_name[0].isdigit():
+                safe_class_name = "Class" + safe_class_name
+                
+            lines.append(f"class {safe_class_name}Model(BaseModel):")
+            
+            doc_string = f"Discovered Class: {cluster.class_name}.\\n    NEGATIVE CONSTRAINTS:\\n" + "\\n".join(f"    - {nc}" for nc in cluster.negative_constraints)
+            lines.append(f'    """\\n    {doc_string}\\n    """')
+            
+            if not cluster.canonical_predicates:
+                lines.append("    pass")
+            else:
+                for predicate in cluster.canonical_predicates:
+                    safe_predicate = re.sub(r'[^a-zA-Z0-9_]', '_', predicate.lower()).lstrip("_")
+                    if not safe_predicate:
+                        safe_predicate = "unknown_property"
+                    elif safe_predicate[0].isdigit():
+                        safe_predicate = "f_" + safe_predicate
+                    lines.append(f'    {safe_predicate}: str = Field(..., description="Canonical property: {predicate}")')
+            lines.append("")
+            
+        lines.append("class DiscoveredBlueprint(BaseModel):")
+        lines.append('    reasoning: str = Field(..., description="Step-by-step reasoning explaining how the source text features were reliably mapped into this blueprint schema.")')
+        if not clusters:
+            lines.append("    pass")
+        else:
+            for cluster in clusters:
+                safe_class_name = "".join(x for x in cluster.class_name.title() if x.isalnum())
+                if not safe_class_name:
+                    safe_class_name = "UnknownBlueprintClass"
+                elif safe_class_name[0].isdigit():
+                    safe_class_name = "Class" + safe_class_name
+                    
+                field_key = safe_class_name.lower()
+                lines.append(f'    {field_key}: {safe_class_name}Model = Field(..., description="Dynamically generated schema for {cluster.class_name}")')
+                
+        with open(os.path.join(output_dir, "models.py"), "w") as f:
+            if human_readable:
+                f.write("\n".join(lines))
+            else:
+                f.write("\\n".join(lines))
+            
+        print(f"[+] Successfully exported rigid Pydantic models to {output_dir}/models.py natively.")

@@ -8,7 +8,7 @@ By bridging asynchronous Large Language Models (LLMs) via `instructor` with soph
 
 ## 🚀 The Pipeline Architecture
 
-The workflow is split into two primary automated processes:
+The workflow is split into three primary automated processes:
 
 ### Phase 1: Latent Discovery Clustering
 Instead of attempting zero-shot schema extraction, IsoMorph first maps the textual corpus natively.
@@ -16,8 +16,14 @@ Instead of attempting zero-shot schema extraction, IsoMorph first maps the textu
 2. **Topological Graph Algorithms:** The triples are loaded into a `NetworkX` mesh where the engine executes complex algorithmic refinements and applies weighted Louvain community detection to group the knowledge natively into purely logical shapes.
 3. **Pydantic Hardening:** Highly isolated communities are pulled out of the mesh and translated via the LLM into explicit constraints, locking down hallucination-proof Pydantic models mapping explicit negative traits.
 
-### Phase 2: Graph Interpretation (Distillation)
-The hardened Python Pydantic classes formulated in Phase 1 are injected back into the LLM logic engines as strict validation models. The raw text is then blasted against these newly generated master models to yield universally categorized, highly structured JSON configurations matching reality.
+### Phase 2: Abstraction and Generalization
+Raw extracted blueprints are refined into higher-order generalized schemas using techniques like:
+- **Latent Space Clustering:** Merges nodes mathematically using embedding cosine similarity to pool semantically identical structures.
+- **Taxonomic Lifting:** Dynamically synthesizes top-level ontology labels using the LLM for refined schema naming.
+- **Structural Role Abstraction:** Applies NetworkX graph math (e.g., Degree Centrality) to assign structural types (like Hubs, Bridges, or Leaves) without relying on semantic meaning.
+
+### Phase 3: Graph Interpretation (Distillation)
+The hardened Python Pydantic classes formulated in the prior phases are injected back into the LLM logic engines as strict validation models. The raw text is then blasted against these newly generated master models to yield universally categorized, highly structured JSON configurations matching reality.
 
 ---
 

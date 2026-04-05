@@ -17,6 +17,10 @@ class LLMConfig:
         return os.getenv("LLM_MODEL_NAME", "mistral-small-agent")
 
     @staticmethod
+    def get_embedding_model_name() -> str:
+        return os.getenv("LLM_EMBEDDING_MODEL", "text-embedding-3-small")
+
+    @staticmethod
     def get_base_url() -> str:
         base_url = os.getenv("LLM_BASE_URL", "http://localhost:11434/v1")
         if LLMConfig.get_provider() in ["google", "vertex", "vertexai", "gcp"]:
@@ -68,3 +72,7 @@ class LLMConfig:
             AsyncOpenAI(base_url=LLMConfig.get_base_url(), api_key=get_api_key()),
             mode=instructor.Mode.JSON_SCHEMA
         )
+
+    @staticmethod
+    def get_async_raw_openai_client():
+        return AsyncOpenAI(base_url=LLMConfig.get_base_url(), api_key=get_api_key())

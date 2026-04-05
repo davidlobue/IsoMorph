@@ -1,0 +1,88 @@
+[
+{
+  "reasoning": "[Seeded Meta] The class 'Intermediate-Bridge-1' represents timepoints or actions via its predicate relationships ('DateOfEvaluation -> DateTime', 'DateOfReport -> DateTime'), making it an 'Action' in the Golden Schema.",
+  "class_name": "Action",
+  "nodes": [
+    "<DATE>",
+    "October 14, 2025",
+    "October 28, 2025"
+  ],
+  "canonical_predicates": [
+    "DateOfEvaluation -> DateTime",
+    "DateOfReport -> DateTime"
+  ],
+  "negative_constraints": [
+    "NEVER - (Not a TemporalEvent: HasLocation)",
+    "NEVER - (Not a TemporalEvent: HasPhysicalAddress)"
+  ]
+},
+{
+  "reasoning": "[Seeded Meta] The 'High-Degree-Hub-2' class primarily represents entities of type '<PERSON>', making it an 'Agent'.",
+  "class_name": "Agent",
+  "nodes": [
+    "<PERSON>",
+    "PersonName"
+  ],
+  "canonical_predicates": [
+    "Name",
+    "Date of Birth",
+    "Grade",
+    "Clinician",
+    "Referral Reason",
+    "Cooperative Status",
+    "Eye Contact",
+    "Seat Behavior",
+    "Task Avoidance",
+    "Thinking Style",
+    "Inattention (Parental Concerns)",
+    "Emotional Reactivity (Score)",
+    "Executive Functioning",
+    "ADHD Diagnosis",
+    "Anxiety Disorder Diagnosis",
+    "has_problem_at_home",
+    "has_issue_at_school",
+    "has_impulse_control_problem_at_school",
+    "has_executive_function_dysfunction_at_school",
+    "struggles_with",
+    "meets_criteria_for",
+    "also_has"
+  ],
+  "negative_constraints": [
+    "<PERSON> --(is_dead)-->",
+    "<PERSON> --(has_positive_thinking)-->"
+  ]
+},
+{
+  "reasoning": "[Seeded Meta] The 'Disconnected-Module-3' class primarily represents properties and relationships of test modules, making it an 'Object' in the Golden Schema. It doesn't represent agents performing actions (Agent), changes or results (Outcome), methods or processes (Mechanism), environments or situations (Context), or specific actions taken (Action).",
+  "class_name": "Object",
+  "nodes": [
+    "__properties__:",
+    "[Score] --> [Range]"
+  ],
+  "canonical_predicates": [
+    "SubtestName",
+    "CognitiveDomain",
+    "ScoringProperty"
+  ],
+  "negative_constraints": [
+    "NEVER possess 'Score' --> 'Below Average range' as it is a 'Low Average range' cluster.",
+    "NEVER have other than ['Working Memory', 'Processing Speed'] in the SubtestName, given their mutual exclusivity and cluster singularity."
+  ]
+},
+{
+  "reasoning": "[Seeded Meta] The 'Disconnected-Module-4' class, specifically its negative constraints, defines rules governing the temporal relationships between data points ('date_of_evaluation' and 'date_of_report') associated with a clinical evaluation report. This fits best under 'Context', as it describes the circumstances or settings in which medical evaluations occur.",
+  "class_name": "Context",
+  "nodes": [
+    "<CLINICAL_EVALUATION_REPORT> Nodes"
+  ],
+  "canonical_predicates": [
+    "date_of_evaluation (with type Date)",
+    "date_of_report (with type Date)"
+  ],
+  "negative_constraints": [
+    "A clinical evaluation report should NEVER have a 'date_of_evaluation' that is later than its 'date_of_report'.",
+    "This means, for each instance of <CLINICAL_EVALUATION_REPORT>",
+    "the 'date_of_evaluation' cannot be after the 'date_of_report'."
+  ]
+}
+]

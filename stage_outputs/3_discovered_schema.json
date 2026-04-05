@@ -1,0 +1,246 @@
+{
+  "$defs": {
+    "ActionModel": {
+      "description": "Discovered Class: Action.\\nNEGATIVE CONSTRAINTS:\\n- NEVER - (Not a TemporalEvent: HasLocation)\\n- NEVER - (Not a TemporalEvent: HasPhysicalAddress)",
+      "properties": {
+        "dateofevaluation____datetime": {
+          "description": "Canonical property: DateOfEvaluation -> DateTime",
+          "title": "Dateofevaluation    Datetime",
+          "type": "string"
+        },
+        "dateofreport____datetime": {
+          "description": "Canonical property: DateOfReport -> DateTime",
+          "title": "Dateofreport    Datetime",
+          "type": "string"
+        }
+      },
+      "required": [
+        "dateofevaluation____datetime",
+        "dateofreport____datetime"
+      ],
+      "title": "ActionModel",
+      "type": "object"
+    },
+    "AgentModel": {
+      "description": "Discovered Class: Agent.\\nNEGATIVE CONSTRAINTS:\\n- <PERSON> --(is_dead)-->\\n- <PERSON> --(has_positive_thinking)-->",
+      "properties": {
+        "name": {
+          "description": "Canonical property: Name",
+          "title": "Name",
+          "type": "string"
+        },
+        "date_of_birth": {
+          "description": "Canonical property: Date of Birth",
+          "title": "Date Of Birth",
+          "type": "string"
+        },
+        "grade": {
+          "description": "Canonical property: Grade",
+          "title": "Grade",
+          "type": "string"
+        },
+        "clinician": {
+          "description": "Canonical property: Clinician",
+          "title": "Clinician",
+          "type": "string"
+        },
+        "referral_reason": {
+          "description": "Canonical property: Referral Reason",
+          "title": "Referral Reason",
+          "type": "string"
+        },
+        "cooperative_status": {
+          "description": "Canonical property: Cooperative Status",
+          "title": "Cooperative Status",
+          "type": "string"
+        },
+        "eye_contact": {
+          "description": "Canonical property: Eye Contact",
+          "title": "Eye Contact",
+          "type": "string"
+        },
+        "seat_behavior": {
+          "description": "Canonical property: Seat Behavior",
+          "title": "Seat Behavior",
+          "type": "string"
+        },
+        "task_avoidance": {
+          "description": "Canonical property: Task Avoidance",
+          "title": "Task Avoidance",
+          "type": "string"
+        },
+        "thinking_style": {
+          "description": "Canonical property: Thinking Style",
+          "title": "Thinking Style",
+          "type": "string"
+        },
+        "inattention__parental_concerns_": {
+          "description": "Canonical property: Inattention (Parental Concerns)",
+          "title": "Inattention  Parental Concerns",
+          "type": "string"
+        },
+        "emotional_reactivity__score_": {
+          "description": "Canonical property: Emotional Reactivity (Score)",
+          "title": "Emotional Reactivity  Score",
+          "type": "string"
+        },
+        "executive_functioning": {
+          "description": "Canonical property: Executive Functioning",
+          "title": "Executive Functioning",
+          "type": "string"
+        },
+        "adhd_diagnosis": {
+          "description": "Canonical property: ADHD Diagnosis",
+          "title": "Adhd Diagnosis",
+          "type": "string"
+        },
+        "anxiety_disorder_diagnosis": {
+          "description": "Canonical property: Anxiety Disorder Diagnosis",
+          "title": "Anxiety Disorder Diagnosis",
+          "type": "string"
+        },
+        "has_problem_at_home": {
+          "description": "Canonical property: has_problem_at_home",
+          "title": "Has Problem At Home",
+          "type": "string"
+        },
+        "has_issue_at_school": {
+          "description": "Canonical property: has_issue_at_school",
+          "title": "Has Issue At School",
+          "type": "string"
+        },
+        "has_impulse_control_problem_at_school": {
+          "description": "Canonical property: has_impulse_control_problem_at_school",
+          "title": "Has Impulse Control Problem At School",
+          "type": "string"
+        },
+        "has_executive_function_dysfunction_at_school": {
+          "description": "Canonical property: has_executive_function_dysfunction_at_school",
+          "title": "Has Executive Function Dysfunction At School",
+          "type": "string"
+        },
+        "struggles_with": {
+          "description": "Canonical property: struggles_with",
+          "title": "Struggles With",
+          "type": "string"
+        },
+        "meets_criteria_for": {
+          "description": "Canonical property: meets_criteria_for",
+          "title": "Meets Criteria For",
+          "type": "string"
+        },
+        "also_has": {
+          "description": "Canonical property: also_has",
+          "title": "Also Has",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "date_of_birth",
+        "grade",
+        "clinician",
+        "referral_reason",
+        "cooperative_status",
+        "eye_contact",
+        "seat_behavior",
+        "task_avoidance",
+        "thinking_style",
+        "inattention__parental_concerns_",
+        "emotional_reactivity__score_",
+        "executive_functioning",
+        "adhd_diagnosis",
+        "anxiety_disorder_diagnosis",
+        "has_problem_at_home",
+        "has_issue_at_school",
+        "has_impulse_control_problem_at_school",
+        "has_executive_function_dysfunction_at_school",
+        "struggles_with",
+        "meets_criteria_for",
+        "also_has"
+      ],
+      "title": "AgentModel",
+      "type": "object"
+    },
+    "ContextModel": {
+      "description": "Discovered Class: Context.\\nNEGATIVE CONSTRAINTS:\\n- A clinical evaluation report should NEVER have a 'date_of_evaluation' that is later than its 'date_of_report'.\\n- This means, for each instance of <CLINICAL_EVALUATION_REPORT>\\n- the 'date_of_evaluation' cannot be after the 'date_of_report'.",
+      "properties": {
+        "date_of_evaluation__with_type_date_": {
+          "description": "Canonical property: date_of_evaluation (with type Date)",
+          "title": "Date Of Evaluation  With Type Date",
+          "type": "string"
+        },
+        "date_of_report__with_type_date_": {
+          "description": "Canonical property: date_of_report (with type Date)",
+          "title": "Date Of Report  With Type Date",
+          "type": "string"
+        }
+      },
+      "required": [
+        "date_of_evaluation__with_type_date_",
+        "date_of_report__with_type_date_"
+      ],
+      "title": "ContextModel",
+      "type": "object"
+    },
+    "ObjectModel": {
+      "description": "Discovered Class: Object.\\nNEGATIVE CONSTRAINTS:\\n- NEVER possess 'Score' --> 'Below Average range' as it is a 'Low Average range' cluster.\\n- NEVER have other than ['Working Memory', 'Processing Speed'] in the SubtestName, given their mutual exclusivity and cluster singularity.",
+      "properties": {
+        "subtestname": {
+          "description": "Canonical property: SubtestName",
+          "title": "Subtestname",
+          "type": "string"
+        },
+        "cognitivedomain": {
+          "description": "Canonical property: CognitiveDomain",
+          "title": "Cognitivedomain",
+          "type": "string"
+        },
+        "scoringproperty": {
+          "description": "Canonical property: ScoringProperty",
+          "title": "Scoringproperty",
+          "type": "string"
+        }
+      },
+      "required": [
+        "subtestname",
+        "cognitivedomain",
+        "scoringproperty"
+      ],
+      "title": "ObjectModel",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "action": {
+      "$ref": "#/$defs/ActionModel",
+      "description": "Dynamically generated schema for Action"
+    },
+    "agent": {
+      "$ref": "#/$defs/AgentModel",
+      "description": "Dynamically generated schema for Agent"
+    },
+    "object": {
+      "$ref": "#/$defs/ObjectModel",
+      "description": "Dynamically generated schema for Object"
+    },
+    "context": {
+      "$ref": "#/$defs/ContextModel",
+      "description": "Dynamically generated schema for Context"
+    },
+    "reasoning": {
+      "description": "Step-by-step reasoning explaining how the source text features were reliably mapped into this blueprint schema.",
+      "title": "Reasoning",
+      "type": "string"
+    }
+  },
+  "required": [
+    "action",
+    "agent",
+    "object",
+    "context",
+    "reasoning"
+  ],
+  "title": "DiscoveredBlueprint",
+  "type": "object"
+}

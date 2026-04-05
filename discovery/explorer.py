@@ -15,7 +15,7 @@ class ExplorerEngine:
         self.model_name = LLMConfig.get_model_name()
         self.async_client = LLMConfig.get_async_client()
 
-    async def extract_raw_triples(self, document: DocumentSource) -> List[RawTriple]:
+    async def extract_raw_triples(self, document: DocumentSource) -> TripleExtractionResult:
         """
         Uses Instructor to extract raw, unconstrained semantic Triples.
         """
@@ -27,7 +27,7 @@ class ExplorerEngine:
             ],
             response_model=TripleExtractionResult
         )
-        return response.triples
+        return response
 
     def run_louvain_clustering(self, all_triples: List[RawTriple], resolution: float = 1.0, advanced_heuristics: bool = True, k_core_pruning: bool = True, neighborhood_isomorphism: bool = True, auto_resolution_tuning: bool = True, verbose: bool = False) -> tuple[List[List[str]], nx.Graph]:
         """

@@ -57,19 +57,31 @@ load_dotenv()
 
 from pipeline.orchestrator import Orchestrator
 
+import asyncio
+
 orchestrator = Orchestrator(
+    max_concurrency=4,
     hallucination_filter=True,
     ontology_depth=None,
     strict_typing=True,
-    verbose=True
+    verbose=True,
+    generalize_latent_space=True,
+    generalize_structural_roles=True,
+    generalize_taxonomic_lifting=True,
+    generalize_seeded_schemas=True,
+    save_stage_outputs=True
 )
 
-try:
-    final_schema = orchestrator.run_pipeline(docs)
-except Exception as e:
-    print(f"Pipeline Error: {e}")
-    print("Is your LLM connection running locally, or did you export LLM_BASE_URL?")
-    final_schema = None
+async def main():
+    try:
+        final_schema = await orchestrator.run_pipeline(docs)
+        return final_schema
+    except Exception as e:
+        print(f"Pipeline Error: {e}")
+        print("Is your LLM connection running locally, or did you export LLM_BASE_URL?")
+        return None
+
+final_schema = await main()
 """
 
 text_schema = """\
@@ -79,9 +91,14 @@ If the validation passes strictly with zero false positives, we can now view the
 
 code_schema = """\
 if final_schema:
-    print("Final Dynamic Schema JSON Definition:\\n")
+    print("Final Extracted Data:\\n")
     import json
-    print(json.dumps(final_schema.model_json_schema(), indent=2))
+    for i, item in enumerate(final_schema):
+        print(f"Document {i+1}:")
+        print(item.model_dump_json(indent=2))
+        
+    print("\\n\\nDynamic Schema Used:\\n")
+    print(json.dumps(final_schema[0].model_json_schema(), indent=2))
 """
 
 nb['cells'] = [
