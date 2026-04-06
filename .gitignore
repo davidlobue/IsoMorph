@@ -6,4 +6,8 @@ __pycache__/
 .DS_Store
 knowledgeontology-*.json
 *.html
-*-Copy*.ipynb
+*.ipynb
+logs/
+generated_schemas/
+graph_progressions/
+stage_outputs/
