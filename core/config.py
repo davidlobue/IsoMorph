@@ -61,16 +61,18 @@ class LLMConfig:
 
     @staticmethod
     def get_client():
+        mode = instructor.Mode.JSON if LLMConfig.get_provider() == "local" else instructor.Mode.JSON_SCHEMA
         return instructor.from_openai(
             OpenAI(base_url=LLMConfig.get_base_url(), api_key=get_api_key()),
-            mode=instructor.Mode.JSON_SCHEMA
+            mode=mode
         )
 
     @staticmethod
     def get_async_client():
+        mode = instructor.Mode.JSON if LLMConfig.get_provider() == "local" else instructor.Mode.JSON_SCHEMA
         return instructor.from_openai(
             AsyncOpenAI(base_url=LLMConfig.get_base_url(), api_key=get_api_key()),
-            mode=instructor.Mode.JSON_SCHEMA
+            mode=mode
         )
 
     @staticmethod

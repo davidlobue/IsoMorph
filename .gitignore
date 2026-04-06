@@ -11,3 +11,4 @@ logs/
 generated_schemas/
 graph_progressions/
 stage_outputs/
+!full_workflow.ipynb
