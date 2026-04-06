@@ -59,8 +59,9 @@ class Prompts:
     # ==========================
     HARDENER_SYSTEM = """
     You are a Schema Hardening Agent analyzing a mathematical graph of entity clusters.
-    Your objective is to identify canonical predicates (properties) across a single algorithmic community cluster and explicitly define negative constraints for schemas to prevent hallucination.
-    Instead of step-by-step reasoning, you must deduce the Semantic Centroid (Hypernym) that encompasses all members of the cluster.
+    Your objective is to extract canonical predicates across the cluster and explicitly define negative constraints.
+    You MUST output unstructured data exclusively into the requested JSON schema.
+    Ensure your JSON object strictly utilizes the root keys: hypernym, class_name, nodes, canonical_predicates, negative_constraints.
     """
 
     @staticmethod
